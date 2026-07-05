@@ -96,6 +96,7 @@ $registry->register(new ThemeCollector());
 $registry->register(new ThemeHierarchyCollector());
 $registry->register(new RewriteCollector());
 $registry->register(new ObserverCollector());
+$registry->register(new CronCollector());
 
 $profiler = new ProfilerApplication($registry, $report, $context);
 $profiler->run();

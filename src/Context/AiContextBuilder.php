@@ -17,6 +17,7 @@ class AiContextBuilder
         $this->extractThemes($context, $data);
         $this->extractRewrites($context, $data);
         $this->extractObservers($context, $data);
+        $this->extractCron($context, $data);
 
         $this->addAiGuidance($context, $data);
 
@@ -221,6 +222,36 @@ class AiContextBuilder
         }
     }
 
+    protected function extractCron(AiContext $context, array $data)
+    {
+        $section = $this->findSection($data, 'cron');
+
+        if (!$section) {
+            return;
+        }
+
+        $summaryKeys = array(
+            'Summary / total cron jobs',
+            'Summary / jobs with inline schedule',
+            'Summary / jobs with config schedule path',
+            'Summary / jobs without schedule',
+            'Summary / custom cron jobs',
+            'Summary / missing cron class files',
+        );
+
+        foreach ($summaryKeys as $key) {
+            $value = $this->item($section, $key);
+
+            if ($value !== '[unknown]') {
+                $context->addItem(
+                    'Cron Architecture',
+                    str_replace('Summary / ', '', $key),
+                    $value
+                );
+            }
+        }
+    }
+    
     protected function addAiGuidance(AiContext $context, array $data)
     {
         $context->addItem(
