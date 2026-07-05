@@ -26,7 +26,6 @@ class MagentoCollector extends AbstractCollector
     {
         $section = $this->createSection(
             $report,
-            'Magento',
             'Reports core Magento/OpenMage application identity and basic runtime configuration.',
             'Mage runtime',
             'High'

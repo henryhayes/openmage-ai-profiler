@@ -17,7 +17,7 @@ abstract class AbstractCollector implements CollectorInterface
         return '0.1.0';
     }
 
-    protected function createSection(Report $report, $title, $purpose, $source, $confidence)
+    protected function createSection(Report $report, $purpose, $source, $confidence)
     {
         $section = new Section();
 

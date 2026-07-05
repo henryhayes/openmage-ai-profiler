@@ -26,7 +26,6 @@ class MagentoBootstrapCollector extends AbstractCollector
     {
         $section = $this->createSection(
             $report,
-            'Magento Bootstrap',
             'Determines whether the target root is a Magento/OpenMage installation and attempts a safe read-only bootstrap.',
             'app/Mage.php and Mage runtime',
             'High'

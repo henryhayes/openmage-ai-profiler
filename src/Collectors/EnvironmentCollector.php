@@ -21,7 +21,6 @@ class EnvironmentCollector extends AbstractCollector
     {
         $section = $this->createSection(
             $report,
-            'Environment',
             'Describes how and where the profiler was executed.',
             'Profiler runtime context',
             'High'

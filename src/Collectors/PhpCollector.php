@@ -21,7 +21,6 @@ class PhpCollector extends AbstractCollector
     {
         $section = $this->createSection(
             $report,
-            'PHP',
             'Identifies the PHP runtime, configuration, limits and loaded extensions.',
             'PHP runtime',
             'High'
