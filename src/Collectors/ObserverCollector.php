@@ -17,9 +17,9 @@ class ObserverCollector extends AbstractCollector
         return 'Architecture';
     }
 
-    public function getVersion()
+    public function getDescription()
     {
-        return '1.0.0';
+        return 'Magento event observer declarations across global, frontend and adminhtml areas.';
     }
 
     public function getSince()
@@ -27,23 +27,22 @@ class ObserverCollector extends AbstractCollector
         return '0.5.0';
     }
 
-    public function getDescription()
+    public function getDependencies()
     {
-        return 'Reports Magento event observers across global, frontend and adminhtml areas.';
+        return array('magento_bootstrap', 'modules');
     }
 
     public function collect(Report $report, ProfilerContext $context)
     {
         $section = $this->createSection(
+            $report,
             'Reports Magento event observers across global, frontend and adminhtml areas.',
             'Mage merged configuration',
-            'High',
-            array()
+            'High'
         );
 
-        if (!$context->isMagentoBootstrapped()) {
-            $section->addError('Magento is not bootstrapped.');
-            $report->addSection($section);
+        if (!$context->isMageBootstrapped()) {
+            $section->addError('Magento was not bootstrapped, so observer information is unavailable.');
             return;
         }
 
@@ -51,6 +50,7 @@ class ObserverCollector extends AbstractCollector
 
         $totalObservers = 0;
         $eventsWithObservers = 0;
+
         $areaCounts = array(
             'global' => 0,
             'frontend' => 0,
@@ -85,7 +85,6 @@ class ObserverCollector extends AbstractCollector
 
                     $resolvedClass = $this->resolveClassName($class);
                     $classFile = $this->classToFile($resolvedClass);
-                    $classFileExists = $classFile !== '' && file_exists($classFile);
 
                     $observerRows[] = array(
                         'area' => $area,
@@ -96,7 +95,7 @@ class ObserverCollector extends AbstractCollector
                         'method' => $method,
                         'type' => $type,
                         'disabled' => $disabled,
-                        'class_file_exists' => $classFileExists ? 'yes' : 'no',
+                        'class_file_exists' => ($classFile !== '' && file_exists($classFile)) ? 'yes' : 'no',
                         'class_file' => $classFile !== '' ? $classFile : '[unknown]',
                     );
                 }
@@ -130,8 +129,6 @@ class ObserverCollector extends AbstractCollector
             $section->addItem('  Class file exists', $row['class_file_exists']);
             $section->addItem('  Class file', $row['class_file']);
         }
-
-        $report->addSection($section);
     }
 
     protected function getObserverClass($observerNode)
@@ -197,18 +194,23 @@ class ObserverCollector extends AbstractCollector
 
     protected function classToFile($class)
     {
-        if ($class === '' || $class === '[unknown]') {
+        if ($class === '' || $class === '[unknown]' || $class === '[none]') {
             return '';
         }
 
-        try {
-            $file = Varien_Autoload::instance()->getClassFile($class);
+        $relativeFile = str_replace('_', DIRECTORY_SEPARATOR, $class) . '.php';
 
-            if ($file) {
+        $locations = array(
+            Mage::getBaseDir('code') . DIRECTORY_SEPARATOR . 'local' . DIRECTORY_SEPARATOR . $relativeFile,
+            Mage::getBaseDir('code') . DIRECTORY_SEPARATOR . 'community' . DIRECTORY_SEPARATOR . $relativeFile,
+            Mage::getBaseDir('code') . DIRECTORY_SEPARATOR . 'core' . DIRECTORY_SEPARATOR . $relativeFile,
+            Mage::getBaseDir('lib') . DIRECTORY_SEPARATOR . $relativeFile,
+        );
+
+        foreach ($locations as $file) {
+            if (file_exists($file)) {
                 return $file;
             }
-        } catch (Exception $e) {
-            return '';
         }
 
         return '';
