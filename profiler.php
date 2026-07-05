@@ -100,6 +100,7 @@ $registry->register(new CronCollector());
 $registry->register(new IndexCollector());
 $registry->register(new CacheCollector());
 $registry->register(new DatabaseCollector());
+$registry->register(new EavCollector());
 $registry->register(new LayoutCollector());
 $registry->register(new RouterCollector());
 $registry->register(new ControllerCollector());
