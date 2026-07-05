@@ -14,9 +14,28 @@ class MarkdownReportWriter
             $out[] = '- **' . $key . ':** ' . $value;
         }
 
+        $currentCategory = null;
+
         foreach ($data['sections'] as $section) {
+            $category = isset($section['collector_category']) ? $section['collector_category'] : 'General';
+
+            if ($category !== $currentCategory) {
+                $out[] = '';
+                $out[] = '---';
+                $out[] = '';
+                $out[] = '# ' . $category;
+                $currentCategory = $category;
+            }
+
+            $name = isset($section['collector_name']) && $section['collector_name'] !== ''
+                ? $section['collector_name']
+                : 'Unknown Collector';
+
             $out[] = '';
-            $out[] = '## ' . $section['title'];
+            $out[] = '## ' . $name;
+            $out[] = '';
+
+            $out[] = '**Code:** ' . $section['collector_code'];
             $out[] = '';
             $out[] = '**Purpose:** ' . $section['purpose'];
             $out[] = '';
@@ -28,7 +47,7 @@ class MarkdownReportWriter
             $out[] = '';
 
             foreach ($section['items'] as $item) {
-                $out[] = '- **' . $item['key'] . ':** ' . $item['value'];
+                $out[] = '- **' . trim($item['key']) . ':** ' . $item['value'];
             }
 
             foreach ($section['errors'] as $error) {
