@@ -95,6 +95,7 @@ $registry->register(new ModuleCollector());
 $registry->register(new ThemeCollector());
 $registry->register(new ThemeHierarchyCollector());
 $registry->register(new RewriteCollector());
+$registry->register(new ObserverCollector());
 
 $profiler = new ProfilerApplication($registry, $report, $context);
 $profiler->run();

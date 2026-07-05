@@ -16,6 +16,7 @@ class AiContextBuilder
         $this->extractModules($context, $data);
         $this->extractThemes($context, $data);
         $this->extractRewrites($context, $data);
+        $this->extractObservers($context, $data);
 
         $this->addAiGuidance($context, $data);
 
@@ -248,7 +249,36 @@ class AiContextBuilder
             'Check Module Architecture and Custom Modules before advising on code locations.'
         );
     }
+    
+    protected function extractObservers(AiContext $context, array $data)
+    {
+        $section = $this->findSection($data, 'observers');
 
+        if (!$section) {
+            return;
+        }
+
+        $summaryKeys = array(
+            'Summary / total observers',
+            'Summary / events with observers',
+            'Summary / global observers',
+            'Summary / frontend observers',
+            'Summary / adminhtml observers',
+        );
+
+        foreach ($summaryKeys as $key) {
+            $value = $this->item($section, $key);
+
+            if ($value !== '[unknown]') {
+                $context->addItem(
+                    'Observer Architecture',
+                    str_replace('Summary / ', '', $key),
+                    $value
+                );
+            }
+        }
+    }
+    
     protected function findSection(array $data, $collectorCode)
     {
         foreach ($data['sections'] as $section) {
