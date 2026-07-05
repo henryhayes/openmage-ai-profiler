@@ -4,9 +4,12 @@ class ReportManager
 {
     protected $outputDir;
 
-    public function __construct($outputDir)
+    protected $projectRoot;
+
+    public function __construct($outputDir, $projectRoot = null)
     {
         $this->outputDir = rtrim($outputDir, '/\\');
+        $this->projectRoot = $projectRoot !== null ? rtrim($projectRoot, '/\\') : null;
     }
 
     public function ensureOutputDirectory()
@@ -36,8 +39,12 @@ class ReportManager
         $written[] = $this->writeAiContext($aiContext);
         $written[] = $this->writeAiPrompt($aiContext);
 
-        if (!empty($options['markdown'])) {
+        if (!empty($options['markdown']) || !empty($options['codex'])) {
             $written[] = $this->writeMarkdownProfile($report);
+        }
+
+        if (!empty($options['codex'])) {
+            $written[] = $this->writeCodexAgents($aiContext);
         }
 
         return $written;
@@ -91,6 +98,38 @@ class ReportManager
         $writer->write($context, $file);
 
         return $file;
+    }
+
+    protected function writeCodexAgents(AiContext $context)
+    {
+        if ($this->projectRoot === null || $this->projectRoot === '') {
+            $file = $this->path('AGENTS.md');
+            $aiDirectory = '.';
+        } else {
+            $file = $this->projectRoot . DIRECTORY_SEPARATOR . 'AGENTS.md';
+            $aiDirectory = $this->relativePath($this->projectRoot, $this->outputDir);
+        }
+
+        $writer = new CodexAgentsWriter();
+        $writer->write($context, $file, $aiDirectory);
+
+        return $file;
+    }
+
+    protected function relativePath($from, $to)
+    {
+        $from = str_replace('\\', '/', rtrim($from, '/\\'));
+        $to = str_replace('\\', '/', rtrim($to, '/\\'));
+
+        if ($from === $to) {
+            return '.';
+        }
+
+        if (strpos($to . '/', $from . '/') === 0) {
+            return ltrim(substr($to, strlen($from)), '/');
+        }
+
+        return $to;
     }
 
     protected function path($filename)

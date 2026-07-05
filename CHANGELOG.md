@@ -1,5 +1,14 @@
 # Changelog
 
+## 0.12.0
+
+- Added `--codex` output mode.
+- `--codex` now writes `ai-project-profile.md` automatically.
+- `--codex` writes `AGENTS.md` at the Magento/OpenMage project root.
+- Added `CodexAgentsWriter` with Magento 1.x/OpenMage coding-agent instructions.
+- Improved `MarkdownReportWriter` with metadata table, table of contents, anchors and more Codex-friendly formatting.
+- Updated README with recommended `docs/ai` layout and Codex command.
+
 ## 0.11.0
 
 - Added module dependency graph and reverse-dependency impact mapping.

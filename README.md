@@ -458,6 +458,41 @@ An optional Markdown version of the project profile, intended for GitHub, docume
 
 Generate with: `php profiler.php --markdown`
 
+For Codex or repo-based coding agents, use:
+
+```bash
+php profiler.php --root=/path/to/magento --output=/path/to/magento/docs/ai --codex
+```
+
+`--codex` writes `ai-project-profile.md` and an `AGENTS.md` file at the Magento project root. The `AGENTS.md` file tells Codex to read the generated AI files before making code changes.
+
+---
+
+## Codex / AGENTS.md
+
+```text
+AGENTS.md
+```
+
+Generated when using `--codex`. This file is written to the Magento project root, while the AI reports are written to the selected output directory, usually `docs/ai`.
+
+Recommended command:
+
+```bash
+php profiler.php --root=/data/radiotronics-2022 --output=/data/radiotronics-2022/docs/ai --codex
+```
+
+Recommended repo layout:
+
+```text
+AGENTS.md
+docs/ai/ai-chatgpt-prompt.txt
+docs/ai/ai-project-context.txt
+docs/ai/ai-project-profile.txt
+docs/ai/ai-project-profile.json
+docs/ai/ai-project-profile.md
+```
+
 ---
 
 ## HTML *(planned)*

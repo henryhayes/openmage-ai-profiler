@@ -43,6 +43,7 @@ if ($cli->has('help')) {
     echo "  --root=/path        Magento/OpenMage root\n";
     echo "  --output=/path      Report output directory\n";
     echo "  --markdown          Also write ai-project-profile.md\n";
+    echo "  --codex             Write Markdown profile and AGENTS.md for Codex\n";
     echo "  --help              Show this help\n";
     echo "  --version           Show profiler version\n";
     exit(0);
@@ -67,7 +68,7 @@ if (!preg_match('#^([A-Za-z]:)?[/\\\\]#', $outputDir)) {
 
 $outputDir = rtrim($outputDir, '/\\');
 
-$reportManager = new ReportManager($outputDir);
+$reportManager = new ReportManager($outputDir, $projectRoot);
 
 if (!$reportManager->ensureOutputDirectory()) {
     fwrite(STDERR, "Unable to create output directory: {$outputDir}\n");
@@ -94,6 +95,7 @@ $profiler->run();
 
 $writtenFiles = $reportManager->writeAll($report, array(
     'markdown' => $cli->has('markdown'),
+    'codex' => $cli->has('codex'),
 ));
 
 echo "OpenMage AI Profiler completed.\n";
