@@ -19,7 +19,12 @@ abstract class AbstractCollector implements CollectorInterface
 
     protected function createSection(Report $report, $title, $purpose, $source, $confidence)
     {
-        $section = new Section($title);
+        $section = new Section();
+
+        $section->setCollectorName($this->getTitle());
+        $section->setCollectorCode($this->getCode());
+        $section->setCollectorVersion($this->getVersion());
+        $section->setCollectorSince($this->getSince());
         $section->setPurpose($purpose);
         $section->setSource($source);
         $section->setConfidence($confidence);

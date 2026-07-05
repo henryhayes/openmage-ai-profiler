@@ -19,12 +19,45 @@ class TxtReportWriter
             $out[] = '';
             $out[] = '';
             $out[] = '============================================================';
-            $out[] = strtoupper($section['title']);
+            $out[] = 'COLLECTOR';
             $out[] = '============================================================';
-            $out[] = 'Purpose: ' . $section['purpose'];
-            $out[] = 'Source: ' . $section['source'];
-            $out[] = 'Confidence: ' . $section['confidence'];
-            $out[] = 'Duration: ' . $section['duration'] . 's';
+            $out[] = '';
+
+            $out[] = 'Name:';
+            $out[] = $section['collector_name'];
+            $out[] = '';
+
+            $out[] = 'Code:';
+            $out[] = $section['collector_code'];
+            $out[] = '';
+
+            $out[] = 'Version:';
+            $out[] = $section['collector_version'];
+            $out[] = '';
+
+            $out[] = 'Since:';
+            $out[] = $section['collector_since'];
+            $out[] = '';
+
+            $out[] = 'Purpose:';
+            $out[] = $section['purpose'];
+            $out[] = '';
+
+            $out[] = 'Source:';
+            $out[] = $section['source'];
+            $out[] = '';
+
+            $out[] = 'Confidence:';
+            $out[] = $section['confidence'];
+            $out[] = '';
+
+            $out[] = 'Duration:';
+            $out[] = $section['duration'] . ' seconds';
+            $out[] = '';
+
+            $out[] = '============================================================';
+            $out[] = 'DATA';
+            $out[] = '============================================================';
             $out[] = '';
 
             foreach ($section['items'] as $item) {

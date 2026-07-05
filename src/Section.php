@@ -2,7 +2,10 @@
 
 class Section
 {
-    protected $title;
+    protected $collectorName;
+    protected $collectorCode;
+    protected $collectorVersion;
+    protected $collectorSince;
     protected $purpose = '';
     protected $source = '';
     protected $confidence = '';
@@ -10,9 +13,9 @@ class Section
     protected $items = array();
     protected $errors = array();
 
-    public function __construct($title)
+    public function __construct()
     {
-        $this->title = $title;
+        
     }
 
     public function setPurpose($value) { $this->purpose = $value; }
@@ -33,7 +36,10 @@ class Section
     public function toArray()
     {
         return array(
-            'title' => $this->title,
+            'collector_name' => $this->collectorName,
+            'collector_code' => $this->collectorCode,
+            'collector_version' => $this->collectorVersion,
+            'collector_since' => $this->collectorSince,
             'purpose' => $this->purpose,
             'source' => $this->source,
             'confidence' => $this->confidence,
@@ -41,5 +47,25 @@ class Section
             'items' => $this->items,
             'errors' => $this->errors,
         );
+    }
+    
+    public function setCollectorName($value)
+    {
+        $this->collectorName = $value;
+    }
+
+    public function setCollectorCode($value)
+    {
+        $this->collectorCode = $value;
+    }
+
+    public function setCollectorVersion($value)
+    {
+        $this->collectorVersion = $value;
+    }
+
+    public function setCollectorSince($value)
+    {
+        $this->collectorSince = $value;
     }
 }
