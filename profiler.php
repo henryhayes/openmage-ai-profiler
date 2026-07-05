@@ -86,6 +86,7 @@ $registry->register(new MagentoCollector());
 $registry->register(new StoreCollector());
 $registry->register(new ModuleCollector());
 $registry->register(new ThemeCollector());
+$registry->register(new ThemeHierarchyCollector());
 
 $profiler = new ProfilerApplication($registry, $report, $context);
 $profiler->run();
