@@ -6,11 +6,16 @@ class ProfilerContext
     protected $magentoRoot;
     protected $isMagentoAvailable = false;
     protected $mageBootstrapped = false;
+
+    protected $magentoVersion = null;
+    protected $magentoEdition = null;
+    protected $magentoBaseDir = null;
+
     protected $data = array();
 
     public function __construct($projectRoot)
     {
-        $this->projectRoot = rtrim($projectRoot, '/');
+        $this->projectRoot = rtrim($projectRoot, '/\\');
         $this->magentoRoot = $this->projectRoot;
     }
 
@@ -21,7 +26,7 @@ class ProfilerContext
 
     public function setMagentoRoot($path)
     {
-        $this->magentoRoot = rtrim($path, '/');
+        $this->magentoRoot = rtrim($path, '/\\');
     }
 
     public function getMagentoRoot()
@@ -47,6 +52,36 @@ class ProfilerContext
     public function isMageBootstrapped()
     {
         return $this->mageBootstrapped;
+    }
+
+    public function setMagentoVersion($value)
+    {
+        $this->magentoVersion = $value;
+    }
+
+    public function getMagentoVersion()
+    {
+        return $this->magentoVersion;
+    }
+
+    public function setMagentoEdition($value)
+    {
+        $this->magentoEdition = $value;
+    }
+
+    public function getMagentoEdition()
+    {
+        return $this->magentoEdition;
+    }
+
+    public function setMagentoBaseDir($value)
+    {
+        $this->magentoBaseDir = $value;
+    }
+
+    public function getMagentoBaseDir()
+    {
+        return $this->magentoBaseDir;
     }
 
     public function set($key, $value)

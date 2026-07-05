@@ -42,41 +42,34 @@ class MagentoBootstrapCollector extends AbstractCollector
         if (!file_exists($mageFile)) {
             $context->setMagentoAvailable(false);
             $context->setMageBootstrapped(false);
-
             $section->addError('app/Mage.php was not found. The target root does not appear to be a Magento/OpenMage installation.');
             return;
         }
 
         $context->setMagentoAvailable(true);
 
-        if (class_exists('Mage', false)) {
-            $context->setMageBootstrapped(true);
-            $section->addItem('Mage class already loaded', 'yes');
-        } else {
-            $section->addItem('Mage class already loaded', 'no');
-
+        if (!class_exists('Mage', false)) {
             require_once $mageFile;
+        }
 
-            if (!class_exists('Mage', false)) {
-                $context->setMageBootstrapped(false);
-                $section->addError('Mage class was not available after requiring app/Mage.php.');
-                return;
-            }
+        if (!class_exists('Mage', false)) {
+            $context->setMageBootstrapped(false);
+            $section->addItem('Bootstrap status', 'failed');
+            $section->addError('Mage class was not available after requiring app/Mage.php.');
+            return;
         }
 
         try {
             Mage::app('admin');
 
             $context->setMageBootstrapped(true);
-            $context->set('mage_version', Mage::getVersion());
-            $context->set('mage_edition', method_exists('Mage', 'getEdition') ? Mage::getEdition() : 'Unknown');
-            $context->set('mage_root', Mage::getBaseDir());
+            $context->setMagentoVersion(Mage::getVersion());
+            $context->setMagentoEdition(method_exists('Mage', 'getEdition') ? Mage::getEdition() : 'Unknown');
+            $context->setMagentoBaseDir(Mage::getBaseDir());
 
             $section->addItem('Bootstrap status', 'success');
-            $section->addItem('Mage::getVersion()', Mage::getVersion());
-            $section->addItem('Edition', method_exists('Mage', 'getEdition') ? Mage::getEdition() : 'Unknown');
-            $section->addItem('Mage base dir', Mage::getBaseDir());
-            $section->addItem('Default timezone', Mage::getStoreConfig('general/locale/timezone'));
+            $section->addItem('Mage class loaded', 'yes');
+            $section->addItem('Mage app initialised', 'yes');
         } catch (Exception $e) {
             $context->setMageBootstrapped(false);
             $section->addItem('Bootstrap status', 'failed');

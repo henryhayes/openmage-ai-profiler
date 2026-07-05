@@ -82,6 +82,7 @@ $registry = new CollectorRegistry();
 $registry->register(new EnvironmentCollector());
 $registry->register(new PhpCollector());
 $registry->register(new MagentoBootstrapCollector());
+$registry->register(new MagentoCollector());
 
 $profiler = new ProfilerApplication($registry, $report, $context);
 $profiler->run();
