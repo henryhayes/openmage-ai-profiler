@@ -1,34 +1,41 @@
 # Collectors
 
-Collectors are responsible for gathering specific categories of information from a Magento 1.x or OpenMage installation.
+Collectors gather specific categories of information from a Magento 1.x or OpenMage installation.
+
+## Current Collectors
+
+| Collector | Code | Category |
+|---|---|---|
+| Environment | `environment` | Environment |
+| PHP | `php` | Environment |
+| Magento Bootstrap | `magento_bootstrap` | Magento |
+| Magento | `magento` | Magento |
+| Stores | `stores` | Magento |
+| Modules | `modules` | Architecture |
+| Themes | `themes` | Architecture |
+| Theme Hierarchy | `theme_hierarchy` | Architecture |
+| Rewrites | `rewrites` | Architecture |
+| Rewrite Map | `rewrite_map` | Architecture |
+| Observers | `observers` | Architecture |
+| Cron | `cron` | Architecture |
+| Indexes | `indexes` | Operations |
+| Cache | `cache` | Operations |
+| Database | `database` | Operations |
 
 ## Planned Collectors
 
-- System
-- PHP
-- Magento
-- Filesystem
-- Stores
-- Modules
-- Themes
 - Layouts
 - Routers
 - Controllers
 - Blocks
 - Models
 - Helpers
-- Events
-- Observers
-- Cron
-- Cache
-- Indexes
 - Products
 - Categories
 - Attributes
 - EAV
 - CMS
-- Database
+- Media
 - Security
-- Code Analysis
-- Rewrite Analysis
-- Module Analysis
+- Code analysis
+- Module complexity

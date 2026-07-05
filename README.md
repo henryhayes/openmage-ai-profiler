@@ -357,23 +357,35 @@ Production-ready.
 
 The profiler generates multiple report formats.
 
+## AI Context
+
+```text
+ai-project-context.txt
+```
+
+This is intended to be uploaded first when asking an AI assistant for help.
+
+---
+
+## ChatGPT Prompt
+
+```text
+ai-chatgpt-prompt.txt
+```
+
+A ready-made prompt file containing recommended AI instructions plus the generated project context.
+
+---
+
 ## Text
 
 ```text
 ai-project-profile.txt
 ```
 
-Human-readable and optimised for uploading into AI assistants.
+Complete human-readable technical inventory.
 
----
-
-## Markdown
-
-```text
-ai-project-profile.md
-```
-
-Ideal for documentation and GitHub.
+This is the preferred detailed report to upload alongside the AI context file.
 
 ---
 
@@ -383,7 +395,19 @@ Ideal for documentation and GitHub.
 ai-project-profile.json
 ```
 
-Machine-readable output suitable for automation and future integrations.
+Machine-readable output suitable for automation, comparison tools and future integrations.
+
+---
+
+## Markdown
+
+```text
+ai-project-profile.md
+```
+
+Ideal for documentation and GitHub. Optional output.
+
+Generate with: ```php profiler.php --markdown```
 
 ---
 
