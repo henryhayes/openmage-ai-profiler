@@ -97,15 +97,22 @@ class CollectorRegistry
             'theme_hierarchy',
             'rewrites',
             'rewrite_map',
+            'rewrite_chains',
             'observers',
+            'event_dispatches',
             'cron',
             'indexes',
             'cache',
             'database',
+            'database_schema',
             'eav',
             'layouts',
+            'layout_graph',
             'routers',
             'controllers',
+            'route_controller_map',
+            'templates',
+            'ai_architecture_summary',
         );
 
         $weights = array();

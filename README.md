@@ -1,4 +1,18 @@
 # OpenMage AI Profiler
+## v0.10.0 architecture coverage
+
+Version `0.10.0` adds the next layer of AI-focused Magento/OpenMage analysis:
+
+- rewrite chain/conflict analysis
+- parsed layout XML graph summaries
+- PHTML template relationship summaries
+- event dispatch to observer mapping
+- route/frontName to controller/action mapping
+- database schema and likely custom table summaries
+- final AI architecture score and risk summary
+
+These collectors are intended to answer: "What would an experienced OpenMage developer immediately want to know before changing this installation?"
+
 
 > **Understand your Magento 1.x or OpenMage installation in minutes, not hours.**
 

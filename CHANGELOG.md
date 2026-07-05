@@ -1,5 +1,21 @@
 # Changelog
 
+## 0.10.0
+
+- Added advanced architecture collectors:
+  - RewriteChainCollector
+  - LayoutGraphCollector
+  - TemplateCollector
+  - EventDispatchCollector
+  - RouteControllerMapCollector
+  - DatabaseSchemaCollector
+  - AiArchitectureSummaryCollector
+- Added AI context extraction for the new architecture collectors.
+- Added AI context score and high-level architectural risk summary.
+- Extended guidance for rewrite chains, layout graphs, templates, events, routes/controllers and database schema.
+- Improved profiler coverage for the original objective: giving AI assistants enough Magento/OpenMage context to answer development questions with fewer follow-up questions.
+
+
 All notable changes to this project will be documented in this file.
 
 The format is based on Keep a Changelog.

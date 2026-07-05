@@ -32,7 +32,13 @@ class GuidanceContextExtractor extends AbstractAiContextExtractor
         $context->addItem('AI Guidance', 'Database work', 'Check Database Architecture before advising on setup scripts, resource versions or table-level issues.');
         $context->addItem('AI Guidance', 'EAV work', 'Check EAV Architecture and the full EAV collector output before advising on product, category, customer or customer address attributes.');
         $context->addItem('AI Guidance', 'Routing work', 'Check Router Architecture and Controller Architecture before advising on custom frontend or admin routes.');
-        $context->addItem('AI Guidance', 'Layout work', 'Check Layout Architecture and Theme Resolution before advising on layout XML or template changes.');
+        $context->addItem('AI Guidance', 'Layout work', 'Check Layout Architecture, Layout Graph and Theme Resolution before advising on layout XML or template changes.');
+        $context->addItem('AI Guidance', 'Rewrite chain work', 'Check Rewrite Chains before advising on aliases with multiple declarations or uncertain winning classes.');
+        $context->addItem('AI Guidance', 'Event work', 'Check Event Dispatch Architecture before advising on observers, save events, order events or custom dispatches.');
+        $context->addItem('AI Guidance', 'Route/controller work', 'Check Route Controller Map before advising on frontName, controller class, action method or AJAX endpoint changes.');
+        $context->addItem('AI Guidance', 'Template work', 'Check Template Architecture and Layout Graph before advising on PHTML changes, child blocks or getChildHtml usage.');
+        $context->addItem('AI Guidance', 'Schema work', 'Check Database Schema before advising on custom tables, setup scripts, indexes or schema changes.');
+
     }
     
 }

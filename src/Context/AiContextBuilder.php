@@ -44,6 +44,7 @@ class AiContextBuilder
             new LayoutContextExtractor(),
             new RouterContextExtractor(),
             new ControllerContextExtractor(),
+            new AdvancedArchitectureContextExtractor(),
             new GuidanceContextExtractor(),
         );
     }
