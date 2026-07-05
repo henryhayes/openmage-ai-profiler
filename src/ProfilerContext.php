@@ -5,6 +5,8 @@ class ProfilerContext
     protected $filesystem;
     protected $xmlHelper;
     
+    protected $themeResolver;
+    
     protected $projectRoot;
     protected $magentoRoot;
     protected $isMagentoAvailable = false;
@@ -22,6 +24,15 @@ class ProfilerContext
     {
         $this->projectRoot = rtrim($projectRoot, '/\\');
         $this->magentoRoot = $this->projectRoot;
+    }
+    
+    public function getThemeResolver()
+    {
+        if ($this->themeResolver === null) {
+            $this->themeResolver = new ThemeResolver();
+        }
+
+        return $this->themeResolver;
     }
     
     public function getXmlHelper()

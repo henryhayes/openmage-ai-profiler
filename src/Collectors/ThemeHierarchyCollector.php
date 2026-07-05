@@ -53,35 +53,52 @@ class ThemeHierarchyCollector extends AbstractCollector
             foreach (Mage::app()->getStores() as $store) {
                 $storeId = $store->getId();
 
-                $package = Mage::getStoreConfig('design/package/name', $storeId);
-                $themeDefault = Mage::getStoreConfig('design/theme/default', $storeId);
+                $resolvedTheme = $context->getThemeResolver()->resolveStore($store, $context);
+
+                $package = $resolvedTheme['effective_package'];
+                $themeDefault = $resolvedTheme['effective_theme'];
+
                 $themeLayout = Mage::getStoreConfig('design/theme/layout', $storeId);
                 $themeTemplate = Mage::getStoreConfig('design/theme/template', $storeId);
                 $themeSkin = Mage::getStoreConfig('design/theme/skin', $storeId);
 
-                if ($package === '') {
-                    $package = 'default';
+                if ($themeLayout === '') {
+                    $themeLayout = $themeDefault;
                 }
 
-                if ($themeDefault === '') {
-                    $themeDefault = 'default';
+                if ($themeTemplate === '') {
+                    $themeTemplate = $themeDefault;
                 }
 
-                $resolvedLayoutTheme = $themeLayout !== '' ? $themeLayout : $themeDefault;
-                $resolvedTemplateTheme = $themeTemplate !== '' ? $themeTemplate : $themeDefault;
-                $resolvedSkinTheme = $themeSkin !== '' ? $themeSkin : $themeDefault;
+                if ($themeSkin === '') {
+                    $themeSkin = $themeDefault;
+                }
+
+                $resolvedLayoutTheme = $themeLayout;
+                $resolvedTemplateTheme = $themeTemplate;
+                $resolvedSkinTheme = $themeSkin;
 
                 $section->addItem(
                     'Store',
                     $storeId . ' / ' . $store->getCode() . ' / ' . $store->getName()
                 );
 
-                $section->addItem('  Package', $package);
-                $section->addItem('  Default theme', $themeDefault);
+                $section->addItem('  Active', $resolvedTheme['is_active'] ? 'yes' : 'no');
+                $section->addItem('  Theme resolver', $resolvedTheme['resolver']);
+                $section->addItem('  Theme source', $resolvedTheme['source']);
+                $section->addItem('  Configured package', $resolvedTheme['configured_package']);
+                $section->addItem('  Configured theme', $resolvedTheme['configured_theme']);
+                $section->addItem('  Effective package', $resolvedTheme['effective_package']);
+                $section->addItem('  Effective theme', $resolvedTheme['effective_theme_path']);
+
+                if (count($resolvedTheme['fallback_chain'])) {
+                    $section->addItem('  Fallback chain', implode(' > ', $resolvedTheme['fallback_chain']));
+                }
+
                 $section->addItem('  Layout theme used', $resolvedLayoutTheme);
                 $section->addItem('  Template theme used', $resolvedTemplateTheme);
                 $section->addItem('  Skin theme used', $resolvedSkinTheme);
-
+                
                 $layoutFallbacks = $this->getFallbacks('frontend', $package, $resolvedLayoutTheme);
                 $templateFallbacks = $this->getFallbacks('frontend', $package, $resolvedTemplateTheme);
                 $skinFallbacks = $this->getFallbacks('frontend', $package, $resolvedSkinTheme);
@@ -303,6 +320,8 @@ class ThemeHierarchyCollector extends AbstractCollector
             'css/' . $package . '.css',
             'css/' . $storeCode . '.css',
         );
+
+        $candidates = array_values(array_unique($candidates));
 
         foreach ($fallbacks as $fallback) {
             $skinPath = $locator->frontendSkin()

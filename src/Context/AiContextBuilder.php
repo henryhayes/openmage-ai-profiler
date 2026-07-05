@@ -150,60 +150,41 @@ class AiContextBuilder
             $this->item($themesSection, 'Summary / design packages used by stores')
         );
 
-        $storeSection = $this->findSection($data, 'stores');
+        $themeHierarchySection = $this->findSection($data, 'theme_hierarchy');
 
-        $storeActivity = array();
-
-        if ($storeSection) {
-            $currentStoreCode = null;
-
-            foreach ($storeSection['items'] as $item) {
-                $key = trim($item['key']);
-                $value = trim((string)$item['value']);
-
-                if ($key === 'Store view') {
-                    $parts = explode('/', $value);
-
-                    if (isset($parts[1])) {
-                        $currentStoreCode = trim($parts[1]);
-                    }
-                }
-
-                if ($key === 'Active' && $currentStoreCode !== null) {
-                    $storeActivity[$currentStoreCode] = ($value === 'yes');
-                }
-            }
+        if (!$themeHierarchySection) {
+            return;
         }
 
-        foreach ($themesSection['items'] as $item) {
-            if (strpos($item['key'], 'Store theme / ') !== 0) {
+        $currentStore = null;
+
+        foreach ($themeHierarchySection['items'] as $item) {
+            $key = trim($item['key']);
+            $value = trim((string)$item['value']);
+
+            if ($key === 'Store') {
+                $currentStore = $value;
                 continue;
             }
 
-            $storeCode = str_replace('Store theme / ', '', $item['key']);
+            if ($currentStore === null) {
+                continue;
+            }
 
-            $isActive = isset($storeActivity[$storeCode])
-                ? $storeActivity[$storeCode]
-                : null;
+            if ($key === 'Theme resolver') {
+                $context->addItem('Theme Resolution', $currentStore . ' / Resolver', $value);
+            }
 
-            if ($isActive === true) {
-                $context->addItem(
-                    'Active Theme Store Mapping',
-                    $storeCode,
-                    $item['value']
-                );
-            } elseif ($isActive === false) {
-                $context->addItem(
-                    'Inactive Theme Store Mapping',
-                    $storeCode,
-                    $item['value']
-                );
-            } else {
-                $context->addItem(
-                    'Unknown Activity Theme Store Mapping',
-                    $storeCode,
-                    $item['value']
-                );
+            if ($key === 'Theme source') {
+                $context->addItem('Theme Resolution', $currentStore . ' / Source', $value);
+            }
+
+            if ($key === 'Effective theme') {
+                $context->addItem('Theme Resolution', $currentStore . ' / Effective Theme', $value);
+            }
+
+            if ($key === 'Configured theme') {
+                $context->addItem('Theme Resolution', $currentStore . ' / Configured Theme', $value);
             }
         }
     }
