@@ -74,9 +74,10 @@ class AiPromptWriter
         $out[] = '------------------------------------------------------------';
         $out[] = '';
         $out[] = 'Theme/frontend work:';
-        $out[] = '- Check Theme Architecture, Theme Resolution, Theme Hierarchy, Layout';
-        $out[] = '  Architecture, Layout Graph and Template Architecture before advising';
-        $out[] = '  on templates, layout XML, skin files or CSS.';
+        $out[] = '- Check Theme Architecture, Theme Resolution, Theme Hierarchy, Theme';
+        $out[] = '  Fallback Map, XML Merge Analysis, Layout Architecture, Layout Graph';
+        $out[] = '  and Template Architecture before advising on templates, layout XML,';
+        $out[] = '  skin files or CSS.';
         $out[] = '';
         $out[] = 'Rewrite work:';
         $out[] = '- Check Rewrite Architecture, Rewrite Map and Rewrite Chains before';
@@ -105,6 +106,11 @@ class AiPromptWriter
         $out[] = 'Database/setup work:';
         $out[] = '- Check Database Architecture, Database Schema and module setup resource';
         $out[] = '  information before advising on setup scripts, resource versions or table-level changes.';
+        $out[] = '';
+        $out[] = 'Large/custom code work:';
+        $out[] = '- Check Code Complexity, Module Dependency Graph, Dead Code Indicators,';
+        $out[] = '  Code Relationship Index, AI Index, Search Tags and Risk Report before';
+        $out[] = '  editing large custom helpers, models, controllers or legacy modules.';
         $out[] = '';
         $out[] = '------------------------------------------------------------';
         $out[] = 'RECOMMENDED USAGE';

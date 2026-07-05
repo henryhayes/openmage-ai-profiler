@@ -10,6 +10,15 @@ class AdvancedArchitectureContextExtractor extends AbstractAiContextExtractor
         $this->extractEventDispatches($context, $data);
         $this->extractRouteControllerMap($context, $data);
         $this->extractDatabaseSchema($context, $data);
+        $this->extractModuleDependencyGraph($context, $data);
+        $this->extractXmlMergeAnalysis($context, $data);
+        $this->extractThemeFallbackMap($context, $data);
+        $this->extractCodeComplexity($context, $data);
+        $this->extractDeadCode($context, $data);
+        $this->extractCodeRelationshipIndex($context, $data);
+        $this->extractAiIndex($context, $data);
+        $this->extractSearchTags($context, $data);
+        $this->extractRiskReport($context, $data);
         $this->extractAiSummary($context, $data);
     }
 
@@ -183,6 +192,197 @@ class AdvancedArchitectureContextExtractor extends AbstractAiContextExtractor
             'Summary / likely custom tables',
             'Summary / likely custom table names',
         ));
+    }
+
+
+    protected function extractModuleDependencyGraph(AiContext $context, array $data)
+    {
+        $section = $this->findSection($data, 'module_dependency_graph');
+
+        if (!$section) {
+            return;
+        }
+
+        $this->addSummaryItems($context, $section, 'Module Dependency Graph', array(
+            'Summary / modules',
+            'Summary / custom modules',
+            'Summary / modules with dependencies',
+            'Summary / missing dependencies',
+            'Summary / simple dependency cycles',
+        ));
+    }
+
+    protected function extractXmlMergeAnalysis(AiContext $context, array $data)
+    {
+        $section = $this->findSection($data, 'xml_merge_analysis');
+
+        if (!$section) {
+            return;
+        }
+
+        $this->addSummaryItems($context, $section, 'XML Merge Analysis', array(
+            'Summary / XML merge files',
+            'Summary / XML parse errors',
+        ));
+    }
+
+    protected function extractThemeFallbackMap(AiContext $context, array $data)
+    {
+        $section = $this->findSection($data, 'theme_fallback_map');
+
+        if (!$section) {
+            return;
+        }
+
+        $this->addSummaryItems($context, $section, 'Theme Fallback Map', array(
+            'Summary / packages used by stores',
+        ));
+
+        $shown = 0;
+        foreach ($section['items'] as $item) {
+            if ($item['key'] === 'Theme fallback') {
+                if ($shown >= 20) {
+                    break;
+                }
+                $context->addItem('Theme Fallback Highlights', 'Theme', $item['value']);
+                $shown++;
+            }
+        }
+    }
+
+    protected function extractCodeComplexity(AiContext $context, array $data)
+    {
+        $section = $this->findSection($data, 'code_complexity');
+
+        if (!$section) {
+            return;
+        }
+
+        $this->addSummaryItems($context, $section, 'Code Complexity', array(
+            'Summary / PHP files scanned',
+            'Summary / PHP lines scanned',
+            'Summary / methods found',
+            'Summary / complex methods >=20',
+        ));
+
+        $shown = 0;
+        foreach ($section['items'] as $item) {
+            if ($item['key'] === 'Complex method') {
+                if ($shown >= 30) {
+                    break;
+                }
+                $context->addItem('Code Complexity Highlights', 'Complex method', $item['value']);
+                $shown++;
+            }
+        }
+    }
+
+    protected function extractDeadCode(AiContext $context, array $data)
+    {
+        $section = $this->findSection($data, 'dead_code');
+
+        if (!$section) {
+            return;
+        }
+
+        $this->addSummaryItems($context, $section, 'Dead Code Indicators', array(
+            'Summary / inactive modules with code',
+            'Summary / active modules with missing paths',
+            'Summary / inactive behavioural modules',
+            'Summary / possible orphan layout files',
+        ));
+    }
+
+    protected function extractCodeRelationshipIndex(AiContext $context, array $data)
+    {
+        $section = $this->findSection($data, 'code_relationship_index');
+
+        if (!$section) {
+            return;
+        }
+
+        $this->addSummaryItems($context, $section, 'Code Relationship Index', array(
+            'Summary / relationship topics',
+        ));
+
+        $shown = 0;
+        foreach ($section['items'] as $item) {
+            if ($item['key'] === 'Relationship topic') {
+                if ($shown >= 20) {
+                    break;
+                }
+                $context->addItem('Code Relationship Topics', 'Topic', $item['value']);
+                $shown++;
+            }
+        }
+    }
+
+    protected function extractAiIndex(AiContext $context, array $data)
+    {
+        $section = $this->findSection($data, 'ai_index');
+
+        if (!$section) {
+            return;
+        }
+
+        $this->addSummaryItems($context, $section, 'AI Index', array(
+            'Summary / indexed topics',
+        ));
+
+        $shown = 0;
+        foreach ($section['items'] as $item) {
+            if ($item['key'] === 'AI topic') {
+                if ($shown >= 20) {
+                    break;
+                }
+                $context->addItem('AI Topic Index', 'Topic', $item['value']);
+                $shown++;
+            }
+        }
+    }
+
+    protected function extractSearchTags(AiContext $context, array $data)
+    {
+        $section = $this->findSection($data, 'search_tags');
+
+        if (!$section) {
+            return;
+        }
+
+        $this->addSummaryItems($context, $section, 'Search Tags', array(
+            'Summary / tags generated',
+            'Summary / tags shown',
+        ));
+
+        $tags = array();
+        foreach ($section['items'] as $item) {
+            if ($item['key'] === 'Search tag' && count($tags) < 80) {
+                $tags[] = $item['value'];
+            }
+        }
+
+        if (count($tags)) {
+            $context->addItem('Search Tags', 'Top tags', implode(', ', $tags));
+        }
+    }
+
+    protected function extractRiskReport(AiContext $context, array $data)
+    {
+        $section = $this->findSection($data, 'risk_report');
+
+        if (!$section) {
+            return;
+        }
+
+        $this->addSummaryItems($context, $section, 'Risk Report', array(
+            'Summary / risk count',
+        ));
+
+        foreach ($section['items'] as $item) {
+            if (strpos($item['key'], 'High risk') !== false || $item['key'] === 'Risk') {
+                $context->addItem('Risk Report', $item['key'], $item['value']);
+            }
+        }
     }
 
     protected function extractAiSummary(AiContext $context, array $data)

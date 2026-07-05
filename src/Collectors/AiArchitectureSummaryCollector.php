@@ -6,7 +6,7 @@ class AiArchitectureSummaryCollector extends AbstractCollector
     public function getTitle() { return 'AI Architecture Summary'; }
     public function getCategory() { return 'AI'; }
     public function getDescription() { return 'Summarises profiler coverage, architectural risks and AI-context completeness.'; }
-    public function getSince() { return '0.10.0'; }
+    public function getSince() { return '0.11.0'; }
 
     public function getDependencies()
     {
@@ -21,6 +21,7 @@ class AiArchitectureSummaryCollector extends AbstractCollector
             'rewrites',
             'rewrite_map',
             'rewrite_chains',
+            'module_dependency_graph',
             'observers',
             'event_dispatches',
             'cron',
@@ -29,12 +30,20 @@ class AiArchitectureSummaryCollector extends AbstractCollector
             'database',
             'database_schema',
             'eav',
+            'xml_merge_analysis',
             'layouts',
             'layout_graph',
             'routers',
             'controllers',
             'route_controller_map',
             'templates',
+            'theme_fallback_map',
+            'code_complexity',
+            'dead_code',
+            'code_relationship_index',
+            'ai_index',
+            'search_tags',
+            'risk_report',
         );
     }
 
@@ -55,11 +64,12 @@ class AiArchitectureSummaryCollector extends AbstractCollector
         $section->addItem('Collector sections', count($data['sections']));
         $section->addItem('Collector errors', $this->countErrors($data));
         $section->addItem('Coverage / Magento runtime', $this->hasAll($sections, array('magento_bootstrap', 'magento', 'stores')) ? 'yes' : 'no');
-        $section->addItem('Coverage / module architecture', $this->hasAll($sections, array('modules', 'rewrites', 'rewrite_map', 'rewrite_chains', 'observers', 'event_dispatches')) ? 'yes' : 'no');
-        $section->addItem('Coverage / frontend architecture', $this->hasAll($sections, array('themes', 'theme_hierarchy', 'layouts', 'layout_graph', 'templates')) ? 'yes' : 'no');
+        $section->addItem('Coverage / module architecture', $this->hasAll($sections, array('modules', 'module_dependency_graph', 'rewrites', 'rewrite_map', 'rewrite_chains', 'observers', 'event_dispatches')) ? 'yes' : 'no');
+        $section->addItem('Coverage / frontend architecture', $this->hasAll($sections, array('themes', 'theme_hierarchy', 'theme_fallback_map', 'xml_merge_analysis', 'layouts', 'layout_graph', 'templates')) ? 'yes' : 'no');
         $section->addItem('Coverage / routing architecture', $this->hasAll($sections, array('routers', 'controllers', 'route_controller_map')) ? 'yes' : 'no');
         $section->addItem('Coverage / data architecture', $this->hasAll($sections, array('database', 'database_schema', 'eav')) ? 'yes' : 'no');
         $section->addItem('Coverage / operations', $this->hasAll($sections, array('cache', 'indexes', 'cron')) ? 'yes' : 'no');
+        $section->addItem('Coverage / AI navigation', $this->hasAll($sections, array('code_relationship_index', 'ai_index', 'search_tags', 'risk_report')) ? 'yes' : 'no');
 
         $this->addMetric($section, $sections, 'modules', 'Summary / total modules', 'Total modules');
         $this->addMetric($section, $sections, 'modules', 'Summary / active modules', 'Active modules');
@@ -70,6 +80,10 @@ class AiArchitectureSummaryCollector extends AbstractCollector
         $this->addMetric($section, $sections, 'layout_graph', 'Summary / layout handles', 'Layout handles');
         $this->addMetric($section, $sections, 'templates', 'Summary / PHTML files', 'PHTML templates');
         $this->addMetric($section, $sections, 'database_schema', 'Summary / likely custom tables', 'Likely custom database tables');
+        $this->addMetric($section, $sections, 'module_dependency_graph', 'Summary / missing dependencies', 'Missing module dependencies');
+        $this->addMetric($section, $sections, 'code_complexity', 'Summary / complex methods >=20', 'Complex methods');
+        $this->addMetric($section, $sections, 'dead_code', 'Summary / active modules with missing paths', 'Active modules with missing paths');
+        $this->addMetric($section, $sections, 'risk_report', 'Summary / risk count', 'Risk count');
 
         $risks = $this->detectRisks($sections);
 
@@ -109,6 +123,7 @@ class AiArchitectureSummaryCollector extends AbstractCollector
             'rewrites',
             'rewrite_map',
             'rewrite_chains',
+            'module_dependency_graph',
             'observers',
             'event_dispatches',
             'cron',
@@ -117,12 +132,20 @@ class AiArchitectureSummaryCollector extends AbstractCollector
             'database',
             'database_schema',
             'eav',
+            'xml_merge_analysis',
             'layouts',
             'layout_graph',
             'routers',
             'controllers',
             'route_controller_map',
             'templates',
+            'theme_fallback_map',
+            'code_complexity',
+            'dead_code',
+            'code_relationship_index',
+            'ai_index',
+            'search_tags',
+            'risk_report',
         );
 
         $present = 0;
@@ -206,6 +229,18 @@ class AiArchitectureSummaryCollector extends AbstractCollector
 
         if ((int)$observerCount > 250) {
             $risks[] = 'Large observer surface area. Inspect Observer Architecture and Event Dispatches before changing save/order/product workflows.';
+        }
+
+        $complexMethods = $this->item($sections, 'code_complexity', 'Summary / complex methods >=20');
+
+        if ((int)$complexMethods > 0) {
+            $risks[] = 'Complex custom PHP methods detected. Inspect Code Complexity before editing large helpers, models or controllers.';
+        }
+
+        $missingDependencies = $this->item($sections, 'module_dependency_graph', 'Summary / missing dependencies');
+
+        if ((int)$missingDependencies > 0) {
+            $risks[] = 'Missing declared module dependencies detected. Inspect Module Dependency Graph before enabling/disabling modules.';
         }
 
         return $risks;

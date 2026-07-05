@@ -1,18 +1,18 @@
 # OpenMage AI Profiler
-## v0.10.0 architecture coverage
+## v0.11.0 relationship and risk coverage
 
-Version `0.10.0` adds the next layer of AI-focused Magento/OpenMage analysis:
+Version `0.11.0` adds the relationship layer needed before a future `1.0.0` release:
 
-- rewrite chain/conflict analysis
-- parsed layout XML graph summaries
-- PHTML template relationship summaries
-- event dispatch to observer mapping
-- route/frontName to controller/action mapping
-- database schema and likely custom table summaries
-- final AI architecture score and risk summary
+- module dependency and reverse-dependency graph
+- XML merge surface analysis
+- theme fallback map
+- static PHP code size and approximate method-complexity hotspots
+- dead-code indicators
+- code relationship index for common Magento areas
+- AI topic index and search tags
+- opinionated risk report
 
-These collectors are intended to answer: "What would an experienced OpenMage developer immediately want to know before changing this installation?"
-
+These additions make the profiler more than an inventory: it now gives AI assistants a navigable map of likely impact areas, risk, dependencies and code complexity before suggesting Magento/OpenMage changes.
 
 > **Understand your Magento 1.x or OpenMage installation in minutes, not hours.**
 

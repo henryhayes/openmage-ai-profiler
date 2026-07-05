@@ -1,5 +1,15 @@
 # Changelog
 
+## 0.11.0
+
+- Added module dependency graph and reverse-dependency impact mapping.
+- Added code complexity analysis for large PHP files and high-complexity methods.
+- Added dead-code indicators for inactive behavioural modules, active modules with missing paths and orphaned layout files.
+- Added theme fallback map and XML merge analysis.
+- Added AI topic index, search tags, risk report and code relationship index.
+- Extended compact AI context extraction and prompt guidance for the new relationship/risk collectors.
+- Updated project version to 0.11.0.
+
 ## 0.10.0
 
 - Added advanced architecture collectors:
