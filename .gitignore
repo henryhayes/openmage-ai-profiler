@@ -1,4 +1,11 @@
-# NetBeans specific #
+/output/
+/vendor/
+.idea/
+.vscode/
+*.log
+*.cache
+.DS_Store
+Thumbs.db
 nbproject/private/
 build/
 nbbuild/
@@ -6,11 +13,3 @@ dist/
 nbdist/
 nbactions.xml
 nb-configuration.xml
-
-# Class Files #
-*.class
-
-# Package Files #
-*.jar
-*.war
-*.ear

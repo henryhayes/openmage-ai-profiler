@@ -234,13 +234,13 @@ The long-term vision includes:
 
 Current Version
 
-```
+```text
 v0.1.0
 ```
 
 Status
 
-```
+```text
 Framework
 ```
 
@@ -359,7 +359,7 @@ The profiler generates multiple report formats.
 
 ## Text
 
-```
+```text
 ai-project-profile.txt
 ```
 
@@ -369,7 +369,7 @@ Human-readable and optimised for uploading into AI assistants.
 
 ## Markdown
 
-```
+```text
 ai-project-profile.md
 ```
 
@@ -379,7 +379,7 @@ Ideal for documentation and GitHub.
 
 ## JSON
 
-```
+```text
 ai-project-profile.json
 ```
 
