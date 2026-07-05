@@ -2,6 +2,24 @@
 
 All notable changes to this project will be documented in this file.
 
+The format is based on Keep a Changelog.
+
+---
+
+## [Unreleased]
+
+### Added
+
+-
+
+### Changed
+
+-
+
+### Fixed
+
+-
+
 ---
 
 ## [0.4.0] - 2026-07-05
@@ -35,22 +53,3 @@ All notable changes to this project will be documented in this file.
 
 - Improved Magento bootstrap detection.
 - Improved report structure and collector metadata.
-
----
-
-## [0.3.0]
-
-Initial architecture release.
-
----
-
-## [0.1.0] - Unreleased
-
-### Added
-
-- Initial project structure.
-- README.
-- Version file.
-- Roadmap.
-- Documentation placeholders.
-- Collector framework planned.
