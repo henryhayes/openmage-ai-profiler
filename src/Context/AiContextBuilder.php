@@ -259,6 +259,7 @@ class AiContextBuilder
         $this->addModuleCodePoolStatusCounts($context, $modules);
         $this->addModuleActiveCustomModules($context, $modules);
         $this->addModuleInactiveCustomModules($context, $modules);
+        $this->addModuleInactiveBehaviouralModules($context, $modules);
         $this->addModuleMissingPathHighlights($context, $modules);
         $this->addModuleWithRewrites($context, $modules);
         $this->addModuleWithObservers($context, $modules);
@@ -416,7 +417,7 @@ class AiContextBuilder
     protected function addModuleActiveCustomModules(AiContext $context, array $modules)
     {
         $count = 0;
-        $limit = 80;
+        $limit = 50;
 
         foreach ($modules as $module) {
             if ($module['active'] !== 'yes' || !$this->isCustomModuleName($module['name'])) {
@@ -446,7 +447,7 @@ class AiContextBuilder
     protected function addModuleInactiveCustomModules(AiContext $context, array $modules)
     {
         $count = 0;
-        $limit = 80;
+        $limit = 25;
 
         foreach ($modules as $module) {
             if ($module['active'] !== 'no' || !$this->isCustomModuleName($module['name'])) {
@@ -469,6 +470,55 @@ class AiContextBuilder
                 'Module Inactive Custom Modules',
                 'Truncated',
                 'Only the first ' . $limit . ' inactive custom modules are shown in this short AI context. See full profile for all module data.'
+            );
+        }
+    }
+
+    protected function addModuleInactiveBehaviouralModules(AiContext $context, array $modules)
+    {
+        $rows = array();
+
+        foreach ($modules as $module) {
+            if ($module['active'] !== 'no') {
+                continue;
+            }
+
+            if (
+                $module['rewrites'] <= 0
+                && $module['observers'] <= 0
+                && $module['cron_jobs'] <= 0
+                && $module['routers'] <= 0
+                && $module['setup_scripts'] <= 0
+                && $module['controllers'] <= 0
+            ) {
+                continue;
+            }
+
+            $rows[] = $module;
+        }
+
+        usort($rows, array($this, 'sortModulesByBehaviourWeight'));
+
+        $count = 0;
+        $limit = 25;
+
+        foreach ($rows as $module) {
+            $count++;
+
+            if ($count <= $limit) {
+                $context->addItem(
+                    'Module Inactive Behavioural Modules',
+                    $module['name'],
+                    $this->formatModuleSummary($module)
+                );
+            }
+        }
+
+        if ($count > $limit) {
+            $context->addItem(
+                'Module Inactive Behavioural Modules',
+                'Truncated',
+                'Only the first ' . $limit . ' inactive modules with declared behaviour are shown in this short AI context. See full profile for all module data.'
             );
         }
     }
@@ -510,7 +560,7 @@ class AiContextBuilder
             $modules,
             'Module Rewrites Declared',
             'rewrites',
-            80
+            30
         );
     }
 
@@ -521,7 +571,7 @@ class AiContextBuilder
             $modules,
             'Module Observers Declared',
             'observers',
-            80
+            30
         );
     }
 
@@ -532,7 +582,7 @@ class AiContextBuilder
             $modules,
             'Module Cron Jobs Declared',
             'cron_jobs',
-            80
+            30
         );
     }
 
@@ -543,7 +593,7 @@ class AiContextBuilder
             $modules,
             'Module Routers Declared',
             'routers',
-            80
+            30
         );
     }
 
@@ -554,14 +604,14 @@ class AiContextBuilder
             $modules,
             'Module Setup Scripts',
             'setup_scripts',
-            80
+            30
         );
     }
 
     protected function addModuleWithAdminConfig(AiContext $context, array $modules)
     {
         $count = 0;
-        $limit = 80;
+        $limit = 30;
 
         foreach ($modules as $module) {
             if ($module['system_xml'] !== 'yes' && $module['adminhtml_xml'] !== 'yes') {
@@ -597,6 +647,10 @@ class AiContextBuilder
         $rows = array();
 
         foreach ($modules as $module) {
+            if ($module['active'] !== 'yes') {
+                continue;
+            }
+
             if (!isset($module[$metricKey]) || (int)$module[$metricKey] <= 0) {
                 continue;
             }
@@ -628,7 +682,7 @@ class AiContextBuilder
             $context->addItem(
                 $sectionTitle,
                 'Truncated',
-                'Only the first ' . $limit . ' modules are shown in this short AI context. See full profile for all module data.'
+                'Only the first ' . $limit . ' active modules are shown in this short AI context. See full profile for all module data.'
             );
         }
     }
@@ -648,7 +702,7 @@ class AiContextBuilder
         usort($rows, array($this, 'sortModulesByBehaviourWeight'));
 
         $count = 0;
-        $limit = 100;
+        $limit = 50;
 
         foreach ($rows as $module) {
             $count++;
