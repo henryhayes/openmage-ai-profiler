@@ -8,5 +8,9 @@ interface CollectorInterface
 
     public function getDescription();
 
+    public function getVersion();
+
+    public function getSince();
+
     public function collect(Report $report);
 }

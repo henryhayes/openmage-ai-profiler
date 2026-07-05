@@ -1,6 +1,6 @@
 <?php
 
-class JsonWriter
+class JsonReportWriter
 {
     public function write(Report $report, $file)
     {

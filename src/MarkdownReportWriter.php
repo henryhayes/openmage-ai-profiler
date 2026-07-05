@@ -1,6 +1,6 @@
 <?php
 
-class MarkdownWriter
+class MarkdownReportWriter
 {
     public function write(Report $report, $file)
     {

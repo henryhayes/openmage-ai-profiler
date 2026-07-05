@@ -1,6 +1,6 @@
 <?php
 
-class TextWriter
+class TxtReportWriter
 {
     public function write(Report $report, $file)
     {

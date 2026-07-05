@@ -18,4 +18,14 @@ abstract class AbstractCollector implements CollectorInterface
 
         return $section;
     }
+    
+    public function getVersion()
+    {
+        return '1.0.0';
+    }
+
+    public function getSince()
+    {
+        return '0.1.0';
+    }
 }
