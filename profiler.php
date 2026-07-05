@@ -9,6 +9,7 @@ spl_autoload_register(function ($class) use ($root) {
     $locations = array(
         $root . '/src/' . $class . '.php',
         $root . '/src/Collectors/' . $class . '.php',
+        $root . '/src/Context/' . $class . '.php',
     );
 
     foreach ($locations as $file) {
@@ -95,6 +96,12 @@ $profiler->run();
 $txtFile = $outputDir . DIRECTORY_SEPARATOR . 'ai-project-profile.txt';
 $jsonFile = $outputDir . DIRECTORY_SEPARATOR . 'ai-project-profile.json';
 $markdownFile = $outputDir . DIRECTORY_SEPARATOR . 'ai-project-profile.md';
+$contextFile = $outputDir . DIRECTORY_SEPARATOR . 'ai-project-context.txt';
+
+$aiContextBuilder = new AiContextBuilder();
+$aiContext = $aiContextBuilder->build($report);
+$aiContextWriter = new AiContextWriter();
+$aiContextWriter->write($aiContext, $contextFile);
 
 $textWriter = new TxtReportWriter();
 $jsonWriter = new JsonReportWriter();
@@ -110,3 +117,4 @@ echo $outputDir . "\n\n";
 echo "- " . $txtFile . "\n";
 echo "- " . $jsonFile . "\n";
 echo "- " . $markdownFile . "\n";
+echo "- " . $contextFile . "\n";
