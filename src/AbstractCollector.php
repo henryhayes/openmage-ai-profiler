@@ -17,6 +17,11 @@ abstract class AbstractCollector implements CollectorInterface
         return '0.1.0';
     }
 
+    public function getDependencies()
+    {
+        return array();
+    }
+
     protected function createSection(Report $report, $purpose, $source, $confidence)
     {
         $section = new Section();
