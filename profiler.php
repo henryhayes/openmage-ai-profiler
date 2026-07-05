@@ -20,6 +20,8 @@ spl_autoload_register(function ($class) use ($root) {
     }
 });
 
+$cli = new CommandLine($argv);
+
 $versionFile = $root . '/VERSION';
 $version = file_exists($versionFile) ? trim(file_get_contents($versionFile)) : 'unknown';
 
@@ -28,6 +30,27 @@ $outputDir = $root . '/output';
 if (!is_dir($outputDir)) {
     mkdir($outputDir, 0755, true);
 }
+
+if ($cli->has('version')) {
+    echo "OpenMage AI Profiler " . $version . PHP_EOL;
+    exit(0);
+}
+
+if ($cli->has('help')) {
+
+    echo "OpenMage AI Profiler\n\n";
+
+    echo "Usage:\n";
+    echo "  php dump_project_profile_ai.php [options]\n\n";
+
+    echo "Options:\n";
+    echo "  --root=/path        Magento/OpenMage root\n";
+    echo "  --help             Show this help\n";
+    echo "  --version          Show profiler version\n";
+
+    exit(0);
+}
+
 
 $report = new Report();
 $report->setMetadata('Tool', 'OpenMage AI Profiler');
@@ -39,7 +62,16 @@ $report->setMetadata('Generated', date('c'));
 $registry = new CollectorRegistry();
 $registry->register(new EnvironmentCollector());
 
-$context = new Context($root);
+$projectRoot = $cli->get('root', $root);
+
+$projectRoot = realpath($projectRoot);
+
+if ($projectRoot === false) {
+    fwrite(STDERR, "Invalid project root.\n");
+    exit(1);
+}
+
+$context = new Context($projectRoot);
 
 $profiler = new Profiler($registry, $report, $context);
 $profiler->run();
