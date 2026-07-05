@@ -6,10 +6,10 @@ ini_set('display_errors', '1');
 $root = dirname(__FILE__);
 
 spl_autoload_register(function ($class) use ($root) {
-
+    
     $locations = array(
-        $root . '/lib/' . $class . '.php',
-        $root . '/collectors/' . $class . '.php',
+        $root . '/src/' . $class . '.php',
+        $root . '/src/Collectors/' . $class . '.php',
     );
 
     foreach ($locations as $file) {
@@ -18,7 +18,6 @@ spl_autoload_register(function ($class) use ($root) {
             return;
         }
     }
-
 });
 
 $versionFile = $root . '/VERSION';
@@ -40,7 +39,9 @@ $report->setMetadata('Generated', date('c'));
 $registry = new CollectorRegistry();
 $registry->register(new EnvironmentCollector());
 
-$profiler = new Profiler($registry, $report);
+$context = new Context($root);
+
+$profiler = new Profiler($registry, $report, $context);
 $profiler->run();
 
 $textWriter = new TxtReportWriter();

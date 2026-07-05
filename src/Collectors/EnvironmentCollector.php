@@ -17,7 +17,7 @@ class EnvironmentCollector extends AbstractCollector
         return 'Basic PHP and execution environment information.';
     }
 
-    public function collect(Report $report)
+    public function collect(Report $report, Context $context)
     {
         $section = $this->createSection(
             $report,
@@ -27,6 +27,8 @@ class EnvironmentCollector extends AbstractCollector
             'High'
         );
 
+        $section->addItem('Project root', $context->getProjectRoot());
+        $section->addItem('Magento root', $context->getMagentoRoot());
         $section->addItem('PHP version', PHP_VERSION);
         $section->addItem('PHP SAPI', php_sapi_name());
         $section->addItem('Operating system', php_uname());
