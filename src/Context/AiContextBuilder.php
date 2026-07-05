@@ -179,6 +179,10 @@ class AiContextBuilder
             if ($key === 'Theme source') {
                 $context->addItem('Theme Resolution', $currentStore . ' / Source', $value);
             }
+            
+            if ($key === 'Configured package') {
+                $context->addItem('Theme Resolution', $currentStore . ' / Configured Package', $value);
+            }
 
             if ($key === 'Effective theme') {
                 $context->addItem('Theme Resolution', $currentStore . ' / Effective Theme', $value);
