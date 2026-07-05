@@ -87,6 +87,7 @@ $registry->register(new StoreCollector());
 $registry->register(new ModuleCollector());
 $registry->register(new ThemeCollector());
 $registry->register(new ThemeHierarchyCollector());
+$registry->register(new RewriteCollector());
 
 $profiler = new ProfilerApplication($registry, $report, $context);
 $profiler->run();
