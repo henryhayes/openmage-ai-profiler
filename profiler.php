@@ -86,25 +86,7 @@ $report->setMetadata('Generated', date('c'));
 $context = new ProfilerContext($projectRoot);
 
 $registry = new CollectorRegistry();
-$registry->register(new EnvironmentCollector());
-$registry->register(new PhpCollector());
-$registry->register(new MagentoBootstrapCollector());
-$registry->register(new MagentoCollector());
-$registry->register(new StoreCollector());
-$registry->register(new ModuleCollector());
-$registry->register(new ThemeCollector());
-$registry->register(new ThemeHierarchyCollector());
-$registry->register(new RewriteCollector());
-$registry->register(new RewriteMapCollector());
-$registry->register(new CronCollector());
-$registry->register(new IndexCollector());
-$registry->register(new CacheCollector());
-$registry->register(new DatabaseCollector());
-$registry->register(new EavCollector());
-$registry->register(new LayoutCollector());
-$registry->register(new RouterCollector());
-$registry->register(new ControllerCollector());
-$registry->register(new ObserverCollector());
+$registry->registerDirectory($root . DIRECTORY_SEPARATOR . 'src' . DIRECTORY_SEPARATOR . 'Collectors');
 
 $profiler = new ProfilerApplication($registry, $report, $context);
 $profiler->run();

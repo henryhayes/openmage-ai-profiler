@@ -26,6 +26,11 @@ class StoreCollector extends AbstractCollector
     {
         return '0.3.0';
     }
+    
+    public function getDependencies()
+    {
+        return array('magento_bootstrap');
+    }
 
     public function collect(Report $report, ProfilerContext $context)
     {

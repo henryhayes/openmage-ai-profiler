@@ -21,6 +21,7 @@ class AiContextBuilder
         $this->extractIndexes($context, $data);
         $this->extractCache($context, $data);
         $this->extractDatabase($context, $data);
+        $this->extractEav($context, $data);
         $this->extractRewriteMap($context, $data);
         $this->extractLayouts($context, $data);
         $this->extractRouters($context, $data);
@@ -359,6 +360,94 @@ class AiContextBuilder
         }
     }
     
+    protected function extractEav(AiContext $context, array $data)
+    {
+        $section = $this->findSection($data, 'eav');
+
+        if (!$section) {
+            return;
+        }
+
+        $summaryKeys = array(
+            'Summary / entity types',
+            'Summary / attribute sets',
+            'Summary / attribute groups',
+            'Summary / attributes',
+        );
+
+        foreach ($summaryKeys as $key) {
+            $value = $this->item($section, $key);
+
+            if ($value !== '[unknown]') {
+                $context->addItem('EAV Architecture', str_replace('Summary / ', '', $key), $value);
+            }
+        }
+
+        $currentEntityType = null;
+        $entityTypeCount = 0;
+        $attributeSetCount = 0;
+        $attributeCount = 0;
+
+        foreach ($section['items'] as $item) {
+            $key = trim($item['key']);
+            $value = trim((string)$item['value']);
+
+            if ($key === 'Entity type') {
+                $currentEntityType = $value;
+                $entityTypeCount++;
+                continue;
+            }
+
+            if ($currentEntityType === null) {
+                continue;
+            }
+
+            if ($key === '  Attribute set') {
+                $attributeSetCount++;
+
+                if ($attributeSetCount <= 60) {
+                    $context->addItem(
+                        'EAV Attribute Sets',
+                        $currentEntityType,
+                        $value
+                    );
+                }
+
+                continue;
+            }
+
+            if ($key === '  Attribute') {
+                $attributeCount++;
+
+                if ($attributeCount <= 120) {
+                    $context->addItem(
+                        'EAV Important Attributes',
+                        $currentEntityType,
+                        $value
+                    );
+                }
+
+                continue;
+            }
+        }
+
+        if ($attributeSetCount > 60) {
+            $context->addItem(
+                'EAV Attribute Sets',
+                'Truncated',
+                'Only the first 60 attribute set entries are shown in this short AI context. See full profile for all EAV data.'
+            );
+        }
+
+        if ($attributeCount > 120) {
+            $context->addItem(
+                'EAV Important Attributes',
+                'Truncated',
+                'Only the first 120 important attribute entries are shown in this short AI context. See full profile for all EAV data.'
+            );
+        }
+}
+    
     protected function addAiGuidance(AiContext $context, array $data)
     {
         $context->addItem(
@@ -383,6 +472,7 @@ class AiContextBuilder
         $context->addItem('AI Guidance', 'Module work', 'Check Module Architecture and Custom Modules before advising on code locations.');
         $context->addItem('AI Guidance', 'Performance work', 'Check Cache Architecture, Index Architecture and Cron Architecture before advising on frontend or catalogue performance.');
         $context->addItem('AI Guidance', 'Database work', 'Check Database Architecture before advising on setup scripts, resource versions or table-level issues.');
+        $context->addItem('AI Guidance', 'EAV work', 'Check EAV Architecture and the full EAV collector output before advising on product, category, customer or customer address attributes.');
         $context->addItem('AI Guidance', 'Routing work', 'Check Router Architecture and Controller Architecture before advising on custom frontend or admin routes.');
         $context->addItem('AI Guidance', 'Layout work', 'Check Layout Architecture and Theme Resolution before advising on layout XML or template changes.');
     }

@@ -6,7 +6,7 @@ class EavCollector extends AbstractCollector
     public function getTitle() { return 'EAV'; }
     public function getCategory() { return 'Architecture'; }
     public function getDescription() { return 'Reports EAV entity types, attribute sets, attribute groups and important attributes.'; }
-    public function getSince() { return '0.8.0'; }
+    public function getSince() { return '0.7.0'; }
     public function getDependencies() { return array('magento_bootstrap', 'database'); }
 
     public function collect(Report $report, ProfilerContext $context)
