@@ -98,6 +98,37 @@ The goal is to allow reports to be safely shared with developers or AI assistant
 
 ---
 
+# Compatibility
+
+The profiler is designed to run on the same server as the Magento installation being analysed.
+
+## Magento
+
+- Magento Community Edition 1.7
+- Magento Community Edition 1.8
+- Magento Community Edition 1.9
+- OpenMage LTS
+
+## PHP
+
+The profiler is intentionally written using a conservative subset of PHP to maximise compatibility.
+
+Supported versions:
+
+- PHP 5.6
+- PHP 7.0
+- PHP 7.1
+- PHP 7.2
+- PHP 7.3
+- PHP 7.4
+- PHP 8.x (where supported by the target installation)
+
+No external dependencies are required.
+
+Composer is **not** required.
+
+---
+
 # Project Status
 
 Current Version
