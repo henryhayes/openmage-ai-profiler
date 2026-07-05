@@ -85,6 +85,7 @@ $registry->register(new MagentoBootstrapCollector());
 $registry->register(new MagentoCollector());
 $registry->register(new StoreCollector());
 $registry->register(new ModuleCollector());
+$registry->register(new ThemeCollector());
 
 $profiler = new ProfilerApplication($registry, $report, $context);
 $profiler->run();
