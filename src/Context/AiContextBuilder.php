@@ -132,18 +132,78 @@ class AiContextBuilder
 
     protected function extractThemes(AiContext $context, array $data)
     {
-        $section = $this->findSection($data, 'themes');
+        $themesSection = $this->findSection($data, 'themes');
 
-        if (!$section) {
+        if (!$themesSection) {
             return;
         }
 
-        $context->addItem('Theme Architecture', 'Design Packages Found', $this->item($section, 'Summary / design packages found'));
-        $context->addItem('Theme Architecture', 'Design Packages Used By Stores', $this->item($section, 'Summary / design packages used by stores'));
+        $context->addItem(
+            'Theme Architecture',
+            'Design Packages Found',
+            $this->item($themesSection, 'Summary / design packages found')
+        );
 
-        foreach ($section['items'] as $item) {
-            if (strpos($item['key'], 'Store theme / ') === 0) {
-                $context->addItem('Theme Store Mapping', $item['key'], $item['value']);
+        $context->addItem(
+            'Theme Architecture',
+            'Design Packages Used By Stores',
+            $this->item($themesSection, 'Summary / design packages used by stores')
+        );
+
+        $storeSection = $this->findSection($data, 'stores');
+
+        $storeActivity = array();
+
+        if ($storeSection) {
+            $currentStoreCode = null;
+
+            foreach ($storeSection['items'] as $item) {
+                $key = trim($item['key']);
+                $value = trim((string)$item['value']);
+
+                if ($key === 'Store view') {
+                    $parts = explode('/', $value);
+
+                    if (isset($parts[1])) {
+                        $currentStoreCode = trim($parts[1]);
+                    }
+                }
+
+                if ($key === 'Active' && $currentStoreCode !== null) {
+                    $storeActivity[$currentStoreCode] = ($value === 'yes');
+                }
+            }
+        }
+
+        foreach ($themesSection['items'] as $item) {
+            if (strpos($item['key'], 'Store theme / ') !== 0) {
+                continue;
+            }
+
+            $storeCode = str_replace('Store theme / ', '', $item['key']);
+
+            $isActive = isset($storeActivity[$storeCode])
+                ? $storeActivity[$storeCode]
+                : null;
+
+            if ($isActive === true) {
+                $context->addItem(
+                    'Active Theme Store Mapping',
+                    $storeCode,
+                    $item['value']
+                );
+            } elseif ($isActive === false) {
+                $context->addItem(
+                    'Inactive Theme Store Mapping',
+                    $storeCode,
+                    $item['value']
+                );
+            } else {
+                $context->addItem(
+                    'Unknown Activity Theme Store Mapping',
+                    $storeCode,
+                    $item['value']
+                );
             }
         }
     }
