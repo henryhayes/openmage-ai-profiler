@@ -32,11 +32,11 @@ class AiPromptWriter
         $out[] = 'Recommended usage:';
         $out[] = '';
         $out[] = '1. Upload this file to ChatGPT or another AI assistant.';
-        $out[] = '2. For detailed work, also upload one of:';
+        $out[] = '2. For detailed work, also upload:';
         $out[] = '   - ai-project-profile.txt';
-        $out[] = '   - ai-project-profile.md';
-        $out[] = '   - ai-project-profile.json';
-        $out[] = '3. Then ask your development question.';
+        $out[] = '3. Alternatively, upload ai-project-profile.json if structured data is preferred.';
+        $out[] = '4. If you generated a Markdown report using --markdown, you may upload ai-project-profile.md instead or as well.';
+        $out[] = '5. Then ask your development question.';
         $out[] = '';
         $out[] = 'Suggested first message:';
         $out[] = '';
