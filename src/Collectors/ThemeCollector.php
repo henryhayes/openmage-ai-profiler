@@ -41,7 +41,7 @@ class ThemeCollector extends AbstractCollector
             return;
         }
 
-        $filesystem = new Filesystem();
+        $filesystem = $context->getFilesystem();
         $locator = $context->getResourceLocator();
 
         $designFrontend = $locator->frontendDesign();

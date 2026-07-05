@@ -2,6 +2,9 @@
 
 class ProfilerContext
 {
+    protected $filesystem;
+    protected $xmlHelper;
+    
     protected $projectRoot;
     protected $magentoRoot;
     protected $isMagentoAvailable = false;
@@ -19,6 +22,24 @@ class ProfilerContext
     {
         $this->projectRoot = rtrim($projectRoot, '/\\');
         $this->magentoRoot = $this->projectRoot;
+    }
+    
+    public function getXmlHelper()
+    {
+        if ($this->xmlHelper === null) {
+            $this->xmlHelper = new XmlHelper();
+        }
+
+        return $this->xmlHelper;
+    }
+    
+    public function getFilesystem()
+    {
+        if ($this->filesystem === null) {
+            $this->filesystem = new Filesystem();
+        }
+
+        return $this->filesystem;
     }
 
     public function getResourceLocator()
@@ -38,6 +59,9 @@ class ProfilerContext
     public function setMagentoRoot($path)
     {
         $this->magentoRoot = rtrim($path, '/\\');
+
+        // Reset so a new locator is built for the new root.
+        $this->resourceLocator = null;
     }
 
     public function getMagentoRoot()

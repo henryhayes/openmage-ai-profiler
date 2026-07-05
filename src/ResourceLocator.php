@@ -58,4 +58,39 @@ class ResourceLocator
     {
         return $this->etc() . DIRECTORY_SEPARATOR . 'modules';
     }
+
+    public function codeCore()
+    {
+        return $this->code() . DIRECTORY_SEPARATOR . 'core';
+    }
+
+    public function codeCommunity()
+    {
+        return $this->code() . DIRECTORY_SEPARATOR . 'community';
+    }
+
+    public function codeLocal()
+    {
+        return $this->code() . DIRECTORY_SEPARATOR . 'local';
+    }
+
+    public function locale()
+    {
+        return $this->app() . DIRECTORY_SEPARATOR . 'locale';
+    }
+
+    public function cache()
+    {
+        return $this->var() . DIRECTORY_SEPARATOR . 'cache';
+    }
+
+    public function session()
+    {
+        return $this->var() . DIRECTORY_SEPARATOR . 'session';
+    }
+
+    public function log()
+    {
+        return $this->var() . DIRECTORY_SEPARATOR . 'log';
+    }
 }
