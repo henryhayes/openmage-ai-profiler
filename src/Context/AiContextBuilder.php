@@ -60,20 +60,17 @@ class AiContextBuilder
         $inactiveStores = 0;
 
         foreach ($section['items'] as $item) {
-            if ($item['key'] === 'Website') {
+            $key = trim($item['key']);
+            $value = trim((string)$item['value']);
+
+            if ($key === 'Website') {
                 $websites++;
-            }
-
-            if (trim($item['key']) === 'Store group') {
+            } elseif ($key === 'Store group') {
                 $storeGroups++;
-            }
-
-            if (trim($item['key']) === 'Store view') {
+            } elseif ($key === 'Store view') {
                 $storeViews++;
-            }
-
-            if (trim($item['key']) === 'Active') {
-                if ($item['value'] === 'yes') {
+            } elseif ($key === 'Active') {
+                if ($value === 'yes') {
                     $activeStores++;
                 } else {
                     $inactiveStores++;
