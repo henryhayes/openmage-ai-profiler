@@ -2,6 +2,11 @@
 
 abstract class AbstractCollector implements CollectorInterface
 {
+    public function getCategory()
+    {
+        return 'General';
+    }
+
     public function getDescription()
     {
         return '';
@@ -26,6 +31,7 @@ abstract class AbstractCollector implements CollectorInterface
     {
         $section = new Section();
 
+        $section->setCollectorCategory($this->getCategory());
         $section->setCollectorName($this->getTitle());
         $section->setCollectorCode($this->getCode());
         $section->setCollectorVersion($this->getVersion());

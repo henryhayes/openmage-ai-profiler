@@ -2,6 +2,11 @@
 
 class StoreCollector extends AbstractCollector
 {
+    public function getCategory()
+    {
+        return 'Magento';
+    }
+    
     public function getCode()
     {
         return 'stores';

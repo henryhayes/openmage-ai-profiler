@@ -2,6 +2,11 @@
 
 class ThemeCollector extends AbstractCollector
 {
+    public function getCategory()
+    {
+        return 'Architecture';
+    }
+    
     public function getCode()
     {
         return 'themes';

@@ -2,6 +2,11 @@
 
 class PhpCollector extends AbstractCollector
 {
+    public function getCategory()
+    {
+        return 'Environment';
+    }
+    
     public function getCode()
     {
         return 'php';

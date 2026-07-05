@@ -2,6 +2,11 @@
 
 class EnvironmentCollector extends AbstractCollector
 {
+    public function getCategory()
+    {
+        return 'Environment';
+    }
+    
     public function getCode()
     {
         return 'environment';

@@ -2,10 +2,12 @@
 
 class Section
 {
+    protected $collectorCategory = 'General';
     protected $collectorName;
     protected $collectorCode;
     protected $collectorVersion;
     protected $collectorSince;
+
     protected $purpose = '';
     protected $source = '';
     protected $confidence = '';
@@ -13,42 +15,11 @@ class Section
     protected $items = array();
     protected $errors = array();
 
-    public function __construct()
+    public function setCollectorCategory($value)
     {
-        
+        $this->collectorCategory = $value;
     }
 
-    public function setPurpose($value) { $this->purpose = $value; }
-    public function setSource($value) { $this->source = $value; }
-    public function setConfidence($value) { $this->confidence = $value; }
-    public function setDuration($value) { $this->duration = $value; }
-
-    public function addItem($key, $value)
-    {
-        $this->items[] = array('key' => $key, 'value' => $value);
-    }
-
-    public function addError($message)
-    {
-        $this->errors[] = $message;
-    }
-
-    public function toArray()
-    {
-        return array(
-            'collector_name' => $this->collectorName,
-            'collector_code' => $this->collectorCode,
-            'collector_version' => $this->collectorVersion,
-            'collector_since' => $this->collectorSince,
-            'purpose' => $this->purpose,
-            'source' => $this->source,
-            'confidence' => $this->confidence,
-            'duration' => $this->duration,
-            'items' => $this->items,
-            'errors' => $this->errors,
-        );
-    }
-    
     public function setCollectorName($value)
     {
         $this->collectorName = $value;
@@ -67,5 +38,55 @@ class Section
     public function setCollectorSince($value)
     {
         $this->collectorSince = $value;
+    }
+
+    public function setPurpose($value)
+    {
+        $this->purpose = $value;
+    }
+
+    public function setSource($value)
+    {
+        $this->source = $value;
+    }
+
+    public function setConfidence($value)
+    {
+        $this->confidence = $value;
+    }
+
+    public function setDuration($value)
+    {
+        $this->duration = $value;
+    }
+
+    public function addItem($key, $value)
+    {
+        $this->items[] = array(
+            'key' => $key,
+            'value' => $value,
+        );
+    }
+
+    public function addError($message)
+    {
+        $this->errors[] = $message;
+    }
+
+    public function toArray()
+    {
+        return array(
+            'collector_category' => $this->collectorCategory,
+            'collector_name' => $this->collectorName,
+            'collector_code' => $this->collectorCode,
+            'collector_version' => $this->collectorVersion,
+            'collector_since' => $this->collectorSince,
+            'purpose' => $this->purpose,
+            'source' => $this->source,
+            'confidence' => $this->confidence,
+            'duration' => $this->duration,
+            'items' => $this->items,
+            'errors' => $this->errors,
+        );
     }
 }

@@ -6,6 +6,8 @@ interface CollectorInterface
 
     public function getTitle();
 
+    public function getCategory();
+
     public function getDescription();
 
     public function getVersion();

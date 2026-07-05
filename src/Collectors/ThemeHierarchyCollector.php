@@ -2,6 +2,11 @@
 
 class ThemeHierarchyCollector extends AbstractCollector
 {
+    public function getCategory()
+    {
+        return 'Architecture';
+    }
+    
     public function getCode()
     {
         return 'theme_hierarchy';

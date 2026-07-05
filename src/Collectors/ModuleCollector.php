@@ -2,6 +2,11 @@
 
 class ModuleCollector extends AbstractCollector
 {
+    public function getCategory()
+    {
+        return 'Architecture';
+    }
+    
     public function getCode()
     {
         return 'modules';

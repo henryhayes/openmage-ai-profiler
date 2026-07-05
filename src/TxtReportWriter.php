@@ -15,12 +15,32 @@ class TxtReportWriter
             $out[] = $key . ': ' . $value;
         }
 
+        $currentCategory = null;
+
         foreach ($data['sections'] as $section) {
+            $category = isset($section['collector_category'])
+                ? $section['collector_category']
+                : 'General';
+
+            if ($category !== $currentCategory) {
+                $out[] = '';
+                $out[] = '';
+                $out[] = '############################################################';
+                $out[] = strtoupper($category);
+                $out[] = '############################################################';
+
+                $currentCategory = $category;
+            }
+
             $out[] = '';
             $out[] = '';
             $out[] = '============================================================';
             $out[] = 'COLLECTOR';
             $out[] = '============================================================';
+            $out[] = '';
+
+            $out[] = 'Category:';
+            $out[] = $category;
             $out[] = '';
 
             $out[] = 'Name:';
@@ -72,4 +92,3 @@ class TxtReportWriter
         file_put_contents($file, implode("\n", $out));
     }
 }
-
