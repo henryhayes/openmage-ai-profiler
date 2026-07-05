@@ -98,11 +98,14 @@ $txtFile = $outputDir . DIRECTORY_SEPARATOR . 'ai-project-profile.txt';
 $jsonFile = $outputDir . DIRECTORY_SEPARATOR . 'ai-project-profile.json';
 $markdownFile = $outputDir . DIRECTORY_SEPARATOR . 'ai-project-profile.md';
 $contextFile = $outputDir . DIRECTORY_SEPARATOR . 'ai-project-context.txt';
+$promptFile = $outputDir . DIRECTORY_SEPARATOR . 'ai-chatgpt-prompt.txt';
 
 $aiContextBuilder = new AiContextBuilder();
 $aiContext = $aiContextBuilder->build($report);
 $aiContextWriter = new AiContextWriter();
 $aiContextWriter->write($aiContext, $contextFile);
+$aiPromptWriter = new AiPromptWriter();
+$aiPromptWriter->write($aiContext, $promptFile);
 
 $textWriter = new TxtReportWriter();
 $jsonWriter = new JsonReportWriter();
@@ -119,3 +122,4 @@ echo "- " . $txtFile . "\n";
 echo "- " . $jsonFile . "\n";
 echo "- " . $markdownFile . "\n";
 echo "- " . $contextFile . "\n";
+echo "- " . $promptFile . "\n";
