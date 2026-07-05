@@ -2,11 +2,6 @@
 
 class StoreCollector extends AbstractCollector
 {
-    public function getCategory()
-    {
-        return 'Magento';
-    }
-    
     public function getCode()
     {
         return 'stores';
@@ -17,6 +12,11 @@ class StoreCollector extends AbstractCollector
         return 'Stores';
     }
 
+    public function getCategory()
+    {
+        return 'Magento';
+    }
+    
     public function getDescription()
     {
         return 'Website, store group and store view structure.';

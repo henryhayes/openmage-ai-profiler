@@ -2,11 +2,6 @@
 
 class MagentoCollector extends AbstractCollector
 {
-    public function getCategory()
-    {
-        return 'Magento';
-    }
-    
     public function getCode()
     {
         return 'magento';
@@ -17,6 +12,11 @@ class MagentoCollector extends AbstractCollector
         return 'Magento';
     }
 
+    public function getCategory()
+    {
+        return 'Magento';
+    }
+    
     public function getDescription()
     {
         return 'Magento/OpenMage version and core application information.';

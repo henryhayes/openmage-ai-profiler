@@ -2,11 +2,6 @@
 
 class ModuleCollector extends AbstractCollector
 {
-    public function getCategory()
-    {
-        return 'Architecture';
-    }
-    
     public function getCode()
     {
         return 'modules';
@@ -17,6 +12,11 @@ class ModuleCollector extends AbstractCollector
         return 'Modules';
     }
 
+    public function getCategory()
+    {
+        return 'Architecture';
+    }
+    
     public function getDescription()
     {
         return 'Installed Magento/OpenMage module inventory.';

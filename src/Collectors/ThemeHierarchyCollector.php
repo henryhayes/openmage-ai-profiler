@@ -2,11 +2,6 @@
 
 class ThemeHierarchyCollector extends AbstractCollector
 {
-    public function getCategory()
-    {
-        return 'Architecture';
-    }
-    
     public function getCode()
     {
         return 'theme_hierarchy';
@@ -17,6 +12,11 @@ class ThemeHierarchyCollector extends AbstractCollector
         return 'Theme Hierarchy';
     }
 
+    public function getCategory()
+    {
+        return 'Architecture';
+    }
+    
     public function getDescription()
     {
         return 'Theme fallback hierarchy, theme.xml layout updates and shared CSS pattern detection.';

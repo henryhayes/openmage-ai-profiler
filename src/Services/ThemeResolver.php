@@ -78,15 +78,25 @@ class ThemeResolver
         }
 
         try {
-            $events = Mage::getConfig()->getNode('global/events');
+            $areas = array(
+                'global',
+                'frontend',
+                'adminhtml',
+            );
 
-            if ($events) {
-                foreach ($events->children() as $eventNode) {
+            foreach ($areas as $area) {
+                $events = Mage::getConfig()->getNode($area . '/events');
+
+                if (!$events) {
+                    continue;
+                }
+
+                foreach ($events->children() as $eventName => $eventNode) {
                     if (!$eventNode->observers) {
                         continue;
                     }
 
-                    foreach ($eventNode->observers->children() as $observerNode) {
+                    foreach ($eventNode->observers->children() as $observerName => $observerNode) {
                         $class = '';
 
                         if ($observerNode->class) {
@@ -95,8 +105,22 @@ class ThemeResolver
                             $class = (string)$observerNode->model;
                         }
 
-                        if (stripos($class, 'Radiotronics_Theme_Observer_Theme') !== false) {
-                            return 'Radiotronics_Theme_Observer_ThemeFallback';
+                        $method = $observerNode->method
+                            ? (string)$observerNode->method
+                            : '';
+
+                        $haystack = strtolower(
+                            $area . ' '
+                            . $eventName . ' '
+                            . $observerName . ' '
+                            . $class . ' '
+                            . $method
+                        );
+
+                        if (strpos($haystack, 'radiotronics_theme') !== false
+                            && strpos($haystack, 'themefallback') !== false
+                        ) {
+                            return 'Radiotronics_Theme_Observer_Themefallback';
                         }
                     }
                 }

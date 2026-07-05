@@ -2,11 +2,6 @@
 
 class ThemeCollector extends AbstractCollector
 {
-    public function getCategory()
-    {
-        return 'Architecture';
-    }
-    
     public function getCode()
     {
         return 'themes';
@@ -17,6 +12,11 @@ class ThemeCollector extends AbstractCollector
         return 'Themes';
     }
 
+    public function getCategory()
+    {
+        return 'Architecture';
+    }
+    
     public function getDescription()
     {
         return 'Frontend design package and theme filesystem inventory.';

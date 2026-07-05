@@ -2,11 +2,6 @@
 
 class MagentoBootstrapCollector extends AbstractCollector
 {
-    public function getCategory()
-    {
-        return 'Magento';
-    }
-    
     public function getCode()
     {
         return 'magento_bootstrap';
@@ -17,6 +12,11 @@ class MagentoBootstrapCollector extends AbstractCollector
         return 'Magento Bootstrap';
     }
 
+    public function getCategory()
+    {
+        return 'Magento';
+    }
+    
     public function getDescription()
     {
         return 'Detects and bootstraps the Magento/OpenMage application.';
