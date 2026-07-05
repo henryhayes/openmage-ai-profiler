@@ -264,6 +264,9 @@ class AiContextBuilder
             'Summary / global observers',
             'Summary / frontend observers',
             'Summary / adminhtml observers',
+            'Summary / custom observers',
+            'Summary / disabled observers',
+            'Summary / missing observer class files',
         );
 
         foreach ($summaryKeys as $key) {

@@ -50,6 +50,9 @@ class ObserverCollector extends AbstractCollector
 
         $totalObservers = 0;
         $eventsWithObservers = 0;
+        $missingClassFiles = 0;
+        $disabledObservers = 0;
+        $customObservers = 0;
 
         $areaCounts = array(
             'global' => 0,
@@ -58,6 +61,7 @@ class ObserverCollector extends AbstractCollector
         );
 
         $observerRows = array();
+        $eventCounts = array();
 
         foreach ($areas as $area) {
             $eventsNode = Mage::getConfig()->getNode($area . '/events');
@@ -85,6 +89,27 @@ class ObserverCollector extends AbstractCollector
 
                     $resolvedClass = $this->resolveClassName($class);
                     $classFile = $this->classToFile($resolvedClass);
+                    $classFileExists = ($classFile !== '' && file_exists($classFile)) ? 'yes' : 'no';
+
+                    if ($classFileExists === 'no') {
+                        $missingClassFiles++;
+                    }
+
+                    if ($disabled === 'yes') {
+                        $disabledObservers++;
+                    }
+
+                    if ($this->isCustomClass($resolvedClass)) {
+                        $customObservers++;
+                    }
+
+                    $eventKey = $area . ' / ' . (string)$eventName;
+
+                    if (!isset($eventCounts[$eventKey])) {
+                        $eventCounts[$eventKey] = 0;
+                    }
+
+                    $eventCounts[$eventKey]++;
 
                     $observerRows[] = array(
                         'area' => $area,
@@ -95,7 +120,8 @@ class ObserverCollector extends AbstractCollector
                         'method' => $method,
                         'type' => $type,
                         'disabled' => $disabled,
-                        'class_file_exists' => ($classFile !== '' && file_exists($classFile)) ? 'yes' : 'no',
+                        'custom' => $this->isCustomClass($resolvedClass) ? 'yes' : 'no',
+                        'class_file_exists' => $classFileExists,
                         'class_file' => $classFile !== '' ? $classFile : '[unknown]',
                     );
                 }
@@ -106,11 +132,28 @@ class ObserverCollector extends AbstractCollector
             }
         }
 
+        arsort($eventCounts);
+
         $section->addItem('Summary / total observers', $totalObservers);
         $section->addItem('Summary / events with observers', $eventsWithObservers);
         $section->addItem('Summary / global observers', $areaCounts['global']);
         $section->addItem('Summary / frontend observers', $areaCounts['frontend']);
         $section->addItem('Summary / adminhtml observers', $areaCounts['adminhtml']);
+        $section->addItem('Summary / custom observers', $customObservers);
+        $section->addItem('Summary / disabled observers', $disabledObservers);
+        $section->addItem('Summary / missing observer class files', $missingClassFiles);
+
+        $top = 0;
+
+        foreach ($eventCounts as $eventKey => $count) {
+            $top++;
+
+            if ($top > 20) {
+                break;
+            }
+
+            $section->addItem('Summary / busiest event / ' . $top, $eventKey . ' / observers=' . $count);
+        }
 
         foreach ($observerRows as $row) {
             $section->addItem(
@@ -126,6 +169,7 @@ class ObserverCollector extends AbstractCollector
             $section->addItem('  Method', $row['method']);
             $section->addItem('  Type', $row['type']);
             $section->addItem('  Disabled', $row['disabled']);
+            $section->addItem('  Custom', $row['custom']);
             $section->addItem('  Class file exists', $row['class_file_exists']);
             $section->addItem('  Class file', $row['class_file']);
         }
@@ -214,5 +258,30 @@ class ObserverCollector extends AbstractCollector
         }
 
         return '';
+    }
+
+    protected function isCustomClass($class)
+    {
+        if ($class === '' || $class === '[unknown]' || $class === '[none]') {
+            return false;
+        }
+
+        $customPrefixes = array(
+            'Radiotronics_',
+            'HenryHayes_',
+            'Symbix_',
+            'OpenSearch',
+            'Ethan_',
+            'Tvcom_',
+            'Tvmenu_',
+        );
+
+        foreach ($customPrefixes as $prefix) {
+            if (strpos($class, $prefix) === 0) {
+                return true;
+            }
+        }
+
+        return false;
     }
 }
