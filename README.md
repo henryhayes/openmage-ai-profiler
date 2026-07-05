@@ -1,16 +1,51 @@
 # OpenMage AI Profiler
 
-> AI-ready diagnostics, architecture analysis and project profiling for Magento 1.x and OpenMage.
+> **Understand your Magento 1.x or OpenMage installation in minutes, not hours.**
 
-## Overview
+AI-ready diagnostics, architecture analysis and project profiling for Magento Community Edition 1.x and OpenMage LTS.
 
-OpenMage AI Profiler is a read-only diagnostics and architecture analysis tool for Magento Community Edition 1.x and OpenMage.
+---
 
-Unlike traditional diagnostics utilities, its primary purpose is not simply to dump configuration values. Instead, it produces structured, AI-friendly reports that explain how an installation is built, how it has been customised, where complexity exists, and which parts of the system are most significant.
+# Overview
 
-The generated reports are designed to be uploaded into Large Language Models (LLMs) such as ChatGPT, allowing an AI assistant to understand the architecture of an installation before helping with development, debugging or optimisation.
+OpenMage AI Profiler is a read-only diagnostics and architecture analysis tool that generates AI-ready reports for Magento Community Edition 1.x and OpenMage installations.
 
-The project aims to become the definitive profiling and architectural analysis tool for Magento 1.x and OpenMage.
+Unlike traditional diagnostics utilities, its primary purpose is not simply to dump configuration values. Instead, it analyses an installation and produces structured reports that explain how it is built, how it has been customised, where complexity exists, and which parts of the system are most significant.
+
+The generated reports are designed to be uploaded into Large Language Models (LLMs) such as ChatGPT, allowing an AI assistant to understand the architecture of an installation before helping with development, debugging, optimisation or migration.
+
+The long-term goal is to become the definitive profiling and architectural analysis tool for Magento Community Edition 1.x and OpenMage.
+
+---
+
+# Philosophy
+
+Traditional diagnostics answer the question:
+
+> **"What is installed?"**
+
+OpenMage AI Profiler answers the question:
+
+> **"How is this installation built?"**
+
+The distinction is important.
+
+Rather than simply dumping thousands of configuration values, the profiler explains architecture, relationships, customisations, dependencies and complexity.
+
+The output is designed to minimise ambiguity for both humans and AI systems by grouping related information, identifying architectural patterns and providing context instead of isolated values.
+
+---
+
+# Scope
+
+OpenMage AI Profiler is designed exclusively for:
+
+- Magento Community Edition 1.7
+- Magento Community Edition 1.8
+- Magento Community Edition 1.9
+- OpenMage LTS
+
+Magento 2 is **not** currently supported.
 
 ---
 
@@ -24,42 +59,51 @@ Rather than simply listing modules or configuration values, the profiler explain
 
 Examples include:
 
-- custom modules
-- rewrites
-- observers
-- cron jobs
-- themes
-- layouts
-- dependencies
-- routing
+- Custom modules
+- Rewrites
+- Observers
+- Cron jobs
+- Themes
+- Layouts
+- Dependencies
+- Routing
 - EAV structure
-- module relationships
+- Module relationships
 
 ---
 
 ## 2. Explain complexity
 
-Large Magento installations often contain years of custom development.
+Large Magento installations often contain many years of custom development.
 
 The profiler identifies:
 
-- architectural hotspots
-- heavily customised modules
-- rewrite chains
-- observer density
-- large templates
-- large classes
-- potential maintenance risks
+- Architectural hotspots
+- Heavily customised modules
+- Rewrite chains
+- Rewrite conflicts
+- Observer density
+- Large templates
+- Large classes
+- Maintenance risks
+- Performance hotspots
 
 ---
 
-## 3. Produce AI-friendly reports
+## 3. Produce AI-ready reports
 
-The generated reports are intended to be read by both humans and AI systems.
+The generated reports are intended to be consumed by both humans and AI systems.
 
-Rather than producing thousands of unrelated configuration values, the report is structured into logical sections with context.
+Rather than producing thousands of unrelated configuration values, reports are organised into logical sections with architectural context.
 
-Future versions will include architecture summaries, complexity scoring and installation health reports.
+Future versions will include:
+
+- Architecture summaries
+- Complexity scoring
+- Risk analysis
+- Upgrade readiness
+- Performance observations
+- AI-generated installation summaries
 
 ---
 
@@ -69,12 +113,15 @@ OpenMage AI Profiler is strictly read-only.
 
 It will never:
 
-- modify configuration
-- flush caches
-- rebuild indexes
-- execute setup scripts
-- update the database
-- create or delete files (other than its own report output)
+- Modify configuration
+- Flush caches
+- Rebuild indexes
+- Execute setup scripts
+- Update the database
+- Delete files
+- Change permissions
+
+The only files it creates are its own report outputs.
 
 ---
 
@@ -84,17 +131,31 @@ Reports intentionally exclude or redact sensitive information.
 
 This includes (but is not limited to):
 
-- passwords
-- crypt keys
+- Passwords
+- Crypt keys
 - API keys
-- payment credentials
-- customer information
-- orders
-- quotes
-- administrator accounts
-- personally identifiable information
+- Payment credentials
+- Customer information
+- Orders
+- Quotes
+- Administrator accounts
+- Personally identifiable information (PII)
 
-The goal is to allow reports to be safely shared with developers or AI assistants.
+The intention is that reports can be safely shared with developers, consultants or AI assistants.
+
+---
+
+# Non-goals
+
+OpenMage AI Profiler is **not** intended to:
+
+- Replace monitoring software
+- Benchmark server performance
+- Modify Magento
+- Repair installations
+- Replace static analysis tools
+- Replace unit testing
+- Replace code review
 
 ---
 
@@ -104,6 +165,8 @@ The profiler is designed to run on the same server as the Magento installation b
 
 ## Magento
 
+Supported platforms:
+
 - Magento Community Edition 1.7
 - Magento Community Edition 1.8
 - Magento Community Edition 1.9
@@ -111,9 +174,9 @@ The profiler is designed to run on the same server as the Magento installation b
 
 ## PHP
 
-The profiler is intentionally written using a conservative subset of PHP to maximise compatibility.
+The profiler intentionally uses a conservative subset of PHP to maximise compatibility.
 
-Supported versions:
+Supported runtimes:
 
 - PHP 5.6
 - PHP 7.0
@@ -121,11 +184,49 @@ Supported versions:
 - PHP 7.2
 - PHP 7.3
 - PHP 7.4
-- PHP 8.x (where supported by the target installation)
+- PHP 8.x (where supported by the target Magento/OpenMage installation)
 
 No external dependencies are required.
 
 Composer is **not** required.
+
+---
+
+# Planned Features
+
+The long-term vision includes:
+
+- Installation overview
+- System analysis
+- PHP environment analysis
+- Filesystem analysis
+- Store hierarchy
+- Theme analysis
+- Layout analysis
+- Module inventory
+- Module dependency analysis
+- Rewrite analysis
+- Rewrite conflict detection
+- Event and observer analysis
+- Cron analysis
+- Controller inventory
+- Block inventory
+- Helper inventory
+- Model inventory
+- Router analysis
+- Product architecture analysis
+- Category analysis
+- EAV analysis
+- CMS analysis
+- Cache analysis
+- Index analysis
+- Database analysis
+- Security review
+- Performance observations
+- Complexity scoring
+- Architectural hotspot detection
+- Upgrade readiness analysis
+- AI-generated architecture summaries
 
 ---
 
@@ -155,6 +256,7 @@ Framework
 
 - Project structure
 - Collector framework
+- Collector registry
 - Report model
 - Output writers
 - CLI runner
@@ -180,7 +282,7 @@ Core collectors
 
 ## v0.3.0
 
-Magento architecture
+Architecture collectors
 
 - Themes
 - Layouts
@@ -206,7 +308,7 @@ Application behaviour
 
 ## v0.5.0
 
-Catalog analysis
+Catalogue analysis
 
 - Products
 - Categories
@@ -218,19 +320,20 @@ Catalog analysis
 
 ## v0.6.0
 
-Code analysis
+Architecture analysis
 
 - Rewrite chains
 - Rewrite conflicts
 - Module dependencies
 - Module complexity
 - Template inventory
+- Code metrics
 
 ---
 
 ## v0.7.0
 
-AI analysis
+Architectural Intelligence
 
 - Architecture summary
 - Complexity scoring
@@ -238,31 +341,21 @@ AI analysis
 - Hotspot detection
 - Upgrade readiness
 - Performance observations
+- AI summaries
 
 ---
 
 ## v1.0.0
 
-Stable release
+Stable Release
 
-Production ready.
-
----
-
-# Supported Platforms
-
-The aim is to support:
-
-- Magento Community Edition 1.7
-- Magento Community Edition 1.8
-- Magento Community Edition 1.9
-- OpenMage
+Production-ready.
 
 ---
 
 # Output Formats
 
-The profiler will generate multiple report formats.
+The profiler generates multiple report formats.
 
 ## Text
 
@@ -270,7 +363,7 @@ The profiler will generate multiple report formats.
 ai-project-profile.txt
 ```
 
-Designed for reading and uploading into AI assistants.
+Human-readable and optimised for uploading into AI assistants.
 
 ---
 
@@ -280,7 +373,7 @@ Designed for reading and uploading into AI assistants.
 ai-project-profile.md
 ```
 
-Human-readable documentation.
+Ideal for documentation and GitHub.
 
 ---
 
@@ -290,7 +383,13 @@ Human-readable documentation.
 ai-project-profile.json
 ```
 
-Machine-readable output for tooling and future integrations.
+Machine-readable output suitable for automation and future integrations.
+
+---
+
+## HTML *(planned)*
+
+An interactive report with navigation, filtering and architecture visualisation.
 
 ---
 
@@ -300,13 +399,15 @@ The project follows several key principles.
 
 - Read-only
 - Safe by default
-- No external dependencies
-- Compatible with Magento 1.x and OpenMage
-- Object-oriented
-- Modular collectors
-- AI-first report structure
-- Graceful error handling
+- AI-first
 - Deterministic output
+- Collector isolation
+- Graceful degradation
+- Versioned report schema
+- No external dependencies
+- Object-oriented architecture
+- Modular collectors
+- Maximum compatibility with Magento 1.x and OpenMage
 
 ---
 
@@ -314,10 +415,20 @@ The project follows several key principles.
 
 Contributions are welcome.
 
-Future versions are expected to include support for additional third-party modules, improved architectural analysis and enhanced AI summaries.
+The project aims to become a community resource for Magento Community Edition 1.x and OpenMage developers.
+
+Ideas, bug reports, new collectors and improvements are all encouraged.
+
+Please ensure all contributions follow the project's design principles:
+
+- Read-only
+- Backwards compatible
+- Well documented
+- Independently testable
+- Safe to run on production systems
 
 ---
 
 # License
 
-MIT License.
+This project is released under the MIT License.
