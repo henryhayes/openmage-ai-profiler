@@ -70,9 +70,9 @@ if (!is_dir($outputDir)) {
     mkdir($outputDir, 0755, true);
 }
 
-$context = new Context($projectRoot);
+$context = new ProfilerContext($projectRoot);
 
-$profiler = new Profiler($registry, $report, $context);
+$profiler = new ProfilerApplication($registry, $report, $context);
 $profiler->run();
 
 $textWriter = new TxtReportWriter();

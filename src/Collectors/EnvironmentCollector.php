@@ -17,7 +17,7 @@ class EnvironmentCollector extends AbstractCollector
         return 'Information about this profiler execution.';
     }
 
-    public function collect(Report $report, Context $context)
+    public function collect(Report $report, ProfilerContext $context)
     {
         $section = $this->createSection(
             $report,

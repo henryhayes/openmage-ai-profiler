@@ -1,12 +1,16 @@
 <?php
 
-class Profiler
+class ProfilerApplication
 {
     protected $registry;
     protected $report;
+    
+    /**
+     * @var ProfilerContext
+     */
     protected $context;
 
-    public function __construct(CollectorRegistry $registry, Report $report, Context $context)
+    public function __construct(CollectorRegistry $registry, Report $report, ProfilerContext $context)
     {
         $this->registry = $registry;
         $this->report = $report;

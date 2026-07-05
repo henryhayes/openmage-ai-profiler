@@ -17,7 +17,7 @@ class PhpCollector extends AbstractCollector
         return 'PHP runtime, configuration and extension information.';
     }
 
-    public function collect(Report $report, Context $context)
+    public function collect(Report $report, ProfilerContext $context)
     {
         $section = $this->createSection(
             $report,

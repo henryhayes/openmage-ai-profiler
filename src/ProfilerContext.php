@@ -1,6 +1,6 @@
 <?php
 
-class Context
+class ProfilerContext
 {
     protected $projectRoot;
     protected $magentoRoot;

@@ -12,5 +12,5 @@ interface CollectorInterface
 
     public function getSince();
 
-    public function collect(Report $report, Context $context);
+    public function collect(Report $report, ProfilerContext $context);
 }
