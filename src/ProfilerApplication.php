@@ -4,7 +4,7 @@ class ProfilerApplication
 {
     protected $registry;
     protected $report;
-    
+
     /**
      * @var ProfilerContext
      */
@@ -38,12 +38,11 @@ class ProfilerApplication
 
                 echo 'Completed collector: ' . $collector->getTitle() . PHP_EOL;
             } catch (Exception $e) {
-                $section = new Section($collector->getTitle());
-                $section->setPurpose($collector->getDescription());
-                $section->setSource('Collector exception');
-                $section->setConfidence('Low');
-                $section->setDuration(round(microtime(true) - $start, 4));
-                $section->addError($e->getMessage());
+                $section = $this->createFailedCollectorSection(
+                    $collector,
+                    $e,
+                    round(microtime(true) - $start, 4)
+                );
 
                 $this->report->addSection($section);
 
@@ -52,5 +51,25 @@ class ProfilerApplication
         }
 
         return $this->report;
+    }
+
+    protected function createFailedCollectorSection(CollectorInterface $collector, Exception $exception, $duration)
+    {
+        $section = new Section();
+
+        $section->setCollectorCategory($collector->getCategory());
+        $section->setCollectorName($collector->getTitle());
+        $section->setCollectorCode($collector->getCode());
+        $section->setCollectorVersion($collector->getVersion());
+        $section->setCollectorSince($collector->getSince());
+
+        $section->setPurpose($collector->getDescription());
+        $section->setSource('Collector exception');
+        $section->setConfidence('Low');
+        $section->setDuration($duration);
+
+        $section->addError($exception->getMessage());
+
+        return $section;
     }
 }
