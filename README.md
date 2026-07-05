@@ -405,9 +405,9 @@ Machine-readable output suitable for automation, comparison tools and future int
 ai-project-profile.md
 ```
 
-Ideal for documentation and GitHub. Optional output.
+An optional Markdown version of the project profile, intended for GitHub, documentation and code reviews.
 
-Generate with: ```php profiler.php --markdown```
+Generate with: `php profiler.php --markdown`
 
 ---
 

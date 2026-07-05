@@ -22,6 +22,9 @@ class AiContextBuilder
         $this->extractCache($context, $data);
         $this->extractDatabase($context, $data);
         $this->extractRewriteMap($context, $data);
+        $this->extractLayouts($context, $data);
+        $this->extractRouters($context, $data);
+        $this->extractControllers($context, $data);
 
         $this->addAiGuidance($context, $data);
 
@@ -380,6 +383,8 @@ class AiContextBuilder
         $context->addItem('AI Guidance', 'Module work', 'Check Module Architecture and Custom Modules before advising on code locations.');
         $context->addItem('AI Guidance', 'Performance work', 'Check Cache Architecture, Index Architecture and Cron Architecture before advising on frontend or catalogue performance.');
         $context->addItem('AI Guidance', 'Database work', 'Check Database Architecture before advising on setup scripts, resource versions or table-level issues.');
+        $context->addItem('AI Guidance', 'Routing work', 'Check Router Architecture and Controller Architecture before advising on custom frontend or admin routes.');
+        $context->addItem('AI Guidance', 'Layout work', 'Check Layout Architecture and Theme Resolution before advising on layout XML or template changes.');
     }
     
     protected function extractObservers(AiContext $context, array $data)
@@ -411,6 +416,59 @@ class AiContextBuilder
                     $value
                 );
             }
+        }
+    }
+    
+    protected function extractLayouts(AiContext $context, array $data)
+    {
+        $section = $this->findSection($data, 'layouts');
+
+        if (!$section) {
+            return;
+        }
+
+        $keys = array(
+            'Summary / declared module layout files',
+            'Summary / frontend theme layout files',
+            'Summary / total layout files',
+        );
+
+        foreach ($keys as $key) {
+            $value = $this->item($section, $key);
+
+            if ($value !== '[unknown]') {
+                $context->addItem('Layout Architecture', str_replace('Summary / ', '', $key), $value);
+            }
+        }
+    }
+
+    protected function extractRouters(AiContext $context, array $data)
+    {
+        $section = $this->findSection($data, 'routers');
+
+        if (!$section) {
+            return;
+        }
+
+        $value = $this->item($section, 'Summary / total routes');
+
+        if ($value !== '[unknown]') {
+            $context->addItem('Router Architecture', 'total routes', $value);
+        }
+    }
+
+    protected function extractControllers(AiContext $context, array $data)
+    {
+        $section = $this->findSection($data, 'controllers');
+
+        if (!$section) {
+            return;
+        }
+
+        $value = $this->item($section, 'Summary / controller files');
+
+        if ($value !== '[unknown]') {
+            $context->addItem('Controller Architecture', 'controller files', $value);
         }
     }
     

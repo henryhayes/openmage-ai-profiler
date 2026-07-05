@@ -96,11 +96,14 @@ $registry->register(new ThemeCollector());
 $registry->register(new ThemeHierarchyCollector());
 $registry->register(new RewriteCollector());
 $registry->register(new RewriteMapCollector());
-$registry->register(new ObserverCollector());
 $registry->register(new CronCollector());
 $registry->register(new IndexCollector());
 $registry->register(new CacheCollector());
 $registry->register(new DatabaseCollector());
+$registry->register(new LayoutCollector());
+$registry->register(new RouterCollector());
+$registry->register(new ControllerCollector());
+$registry->register(new ObserverCollector());
 
 $profiler = new ProfilerApplication($registry, $report, $context);
 $profiler->run();
