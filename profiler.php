@@ -35,7 +35,7 @@ if ($cli->has('help')) {
     echo "OpenMage AI Profiler\n\n";
 
     echo "Usage:\n";
-    echo "  php php profiler.php [options]\n\n";
+    echo "  php profiler.php [options]\n\n";
 
     echo "Options:\n";
     echo "  --root=/path        Magento/OpenMage root\n";
