@@ -18,6 +18,10 @@ class AiContextBuilder
         $this->extractRewrites($context, $data);
         $this->extractObservers($context, $data);
         $this->extractCron($context, $data);
+        $this->extractIndexes($context, $data);
+        $this->extractCache($context, $data);
+        $this->extractDatabase($context, $data);
+        $this->extractRewriteMap($context, $data);
 
         $this->addAiGuidance($context, $data);
 
@@ -252,6 +256,106 @@ class AiContextBuilder
         }
     }
     
+    protected function extractIndexes(AiContext $context, array $data)
+    {
+        $section = $this->findSection($data, 'indexes');
+
+        if (!$section) {
+            return;
+        }
+
+        $summaryKeys = array(
+            'Summary / total indexers',
+            'Summary / require reindex',
+            'Summary / processing',
+            'Summary / manual mode',
+            'Summary / realtime mode',
+        );
+
+        foreach ($summaryKeys as $key) {
+            $value = $this->item($section, $key);
+
+            if ($value !== '[unknown]') {
+                $context->addItem('Index Architecture', str_replace('Summary / ', '', $key), $value);
+            }
+        }
+    }
+
+    protected function extractCache(AiContext $context, array $data)
+    {
+        $section = $this->findSection($data, 'cache');
+
+        if (!$section) {
+            return;
+        }
+
+        $keys = array(
+            'Backend class',
+            'Cache prefix',
+            'Session save',
+            'Summary / cache types',
+            'Summary / enabled cache types',
+            'Summary / disabled cache types',
+        );
+
+        foreach ($keys as $key) {
+            $value = $this->item($section, $key);
+
+            if ($value !== '[unknown]') {
+                $context->addItem('Cache Architecture', str_replace('Summary / ', '', $key), $value);
+            }
+        }
+    }
+
+    protected function extractDatabase(AiContext $context, array $data)
+    {
+        $section = $this->findSection($data, 'database');
+
+        if (!$section) {
+            return;
+        }
+
+        $keys = array(
+            'Host',
+            'Database name',
+            'Table prefix',
+            'Server version',
+            'Table count',
+            'Setup resources',
+        );
+
+        foreach ($keys as $key) {
+            $value = $this->item($section, $key);
+
+            if ($value !== '[unknown]') {
+                $context->addItem('Database Architecture', $key, $value);
+            }
+        }
+    }
+
+    protected function extractRewriteMap(AiContext $context, array $data)
+    {
+        $section = $this->findSection($data, 'rewrite_map');
+
+        if (!$section) {
+            return;
+        }
+
+        $summaryKeys = array(
+            'Summary / resolved rewrite aliases',
+            'Summary / custom winning classes',
+            'Summary / missing winning class files',
+        );
+
+        foreach ($summaryKeys as $key) {
+            $value = $this->item($section, $key);
+
+            if ($value !== '[unknown]') {
+                $context->addItem('Rewrite Map', str_replace('Summary / ', '', $key), $value);
+            }
+        }
+    }
+    
     protected function addAiGuidance(AiContext $context, array $data)
     {
         $context->addItem(
@@ -271,18 +375,11 @@ class AiContextBuilder
             'Theme work',
             'Check Theme Hierarchy and Theme Store Mapping before advising on frontend templates, layouts or CSS.'
         );
-
-        $context->addItem(
-            'AI Guidance',
-            'Rewrite work',
-            'Check Rewrite Architecture before advising on model, block or helper overrides.'
-        );
-
-        $context->addItem(
-            'AI Guidance',
-            'Module work',
-            'Check Module Architecture and Custom Modules before advising on code locations.'
-        );
+        
+        $context->addItem('AI Guidance', 'Rewrite work', 'Check Rewrite Architecture and Rewrite Map before advising on model, block or helper overrides.');
+        $context->addItem('AI Guidance', 'Module work', 'Check Module Architecture and Custom Modules before advising on code locations.');
+        $context->addItem('AI Guidance', 'Performance work', 'Check Cache Architecture, Index Architecture and Cron Architecture before advising on frontend or catalogue performance.');
+        $context->addItem('AI Guidance', 'Database work', 'Check Database Architecture before advising on setup scripts, resource versions or table-level issues.');
     }
     
     protected function extractObservers(AiContext $context, array $data)
