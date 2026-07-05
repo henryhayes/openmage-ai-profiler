@@ -42,14 +42,10 @@ class ThemeCollector extends AbstractCollector
         }
 
         $filesystem = new Filesystem();
+        $locator = $context->getResourceLocator();
 
-        $root = $context->getMagentoRoot();
-        $designFrontend = $root . DIRECTORY_SEPARATOR . 'app'
-            . DIRECTORY_SEPARATOR . 'design'
-            . DIRECTORY_SEPARATOR . 'frontend';
-
-        $skinFrontend = $root . DIRECTORY_SEPARATOR . 'skin'
-            . DIRECTORY_SEPARATOR . 'frontend';
+        $designFrontend = $locator->frontendDesign();
+        $skinFrontend = $locator->frontendSkin();
 
         $section->addItem('Design frontend path', $designFrontend);
         $section->addItem('Skin frontend path', $skinFrontend);

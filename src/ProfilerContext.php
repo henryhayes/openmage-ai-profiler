@@ -6,6 +6,8 @@ class ProfilerContext
     protected $magentoRoot;
     protected $isMagentoAvailable = false;
     protected $mageBootstrapped = false;
+    
+    protected $resourceLocator;
 
     protected $magentoVersion = null;
     protected $magentoEdition = null;
@@ -17,6 +19,15 @@ class ProfilerContext
     {
         $this->projectRoot = rtrim($projectRoot, '/\\');
         $this->magentoRoot = $this->projectRoot;
+    }
+
+    public function getResourceLocator()
+    {
+        if ($this->resourceLocator === null) {
+            $this->resourceLocator = new ResourceLocator($this->magentoRoot);
+        }
+
+        return $this->resourceLocator;
     }
 
     public function getProjectRoot()
