@@ -11,6 +11,7 @@ spl_autoload_register(function ($class) use ($root) {
         $root . '/src/Application/' . $class . '.php',
         $root . '/src/Collectors/' . $class . '.php',
         $root . '/src/Context/' . $class . '.php',
+        $root . '/src/Context/Extractors/' . $class . '.php',
         $root . '/src/Services/' . $class . '.php',
         $root . '/src/Writers/' . $class . '.php',
     );

@@ -30,10 +30,13 @@ class ProfilerApplication
                 $collector->collect($this->report, $this->context);
 
                 $after = count($this->report->getSections());
-                $sections = $this->report->getSections();
 
                 if ($after > $before) {
-                    $sections[$after - 1]->setDuration(round(microtime(true) - $start, 4));
+                    $section = $this->report->getLastSection();
+
+                    if ($section instanceof Section) {
+                        $section->setDuration(round(microtime(true) - $start, 4));
+                    }
                 }
 
                 echo 'Completed collector: ' . $collector->getTitle() . PHP_EOL;

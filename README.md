@@ -36,6 +36,28 @@ The output is designed to minimise ambiguity for both humans and AI systems by g
 
 ---
 
+# Internal Architecture
+
+The project is deliberately organised around small, focused responsibilities.
+
+```text
+Collectors
+  Gather full read-only facts from Magento/OpenMage and the filesystem.
+
+Report writers
+  Render the full collected profile as TXT, JSON and optional Markdown.
+
+AI context extractors
+  Convert full collector output into a compact, high-signal context file.
+
+AI prompt writer
+  Writes usage instructions only. It does not duplicate the context data.
+```
+
+`AiContextBuilder` is intentionally small. It only orchestrates extractor classes from `src/Context/Extractors`. Collector-specific summarisation belongs in those extractor classes, not in the builder and not in the collectors themselves.
+
+---
+
 # Scope
 
 OpenMage AI Profiler is designed exclusively for:
@@ -235,16 +257,18 @@ The long-term vision includes:
 Current Version
 
 ```text
-v0.1.0
+v0.9.0
 ```
 
 Status
 
 ```text
-Framework
+Architecture refactor / pre-1.0 hardening
 ```
 
-The project is currently establishing its internal architecture before implementing collectors.
+The project now includes the core collector framework, automatic collector registration, dependency-aware collector ordering, full profile writers, compact AI context generation and an instructions-only AI prompt writer.
+
+The main focus before a future 1.0 release is deeper architectural analysis and continued hardening of the generated AI context.
 
 ---
 

@@ -20,6 +20,24 @@ The format is based on Keep a Changelog.
 
 -
 
+## [0.9.0] - 2026-07-05
+
+### Added
+
+- Added `AiContextExtractorInterface` and `AbstractAiContextExtractor`.
+- Added focused AI context extractor classes under `src/Context/Extractors`.
+
+### Changed
+
+- Refactored the large `AiContextBuilder` into small, responsibility-focused extractor classes.
+- `AiContextBuilder` is now an orchestrator only.
+- Report duration assignment now uses `Report::getLastSection()` instead of indexing a temporary section array.
+- Updated project version to 0.9.0.
+
+### Fixed
+
+- Reduced risk of future AI-context changes becoming tangled across unrelated collectors.
+
 ## [0.8.0] - 2026-07-05
 
 ### Changed

@@ -20,6 +20,15 @@ class Report
         return $this->sections;
     }
 
+    public function getLastSection()
+    {
+        if (!count($this->sections)) {
+            return null;
+        }
+
+        return $this->sections[count($this->sections) - 1];
+    }
+
     public function toArray()
     {
         $sections = array();
