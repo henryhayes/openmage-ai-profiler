@@ -345,6 +345,17 @@ Architectural Intelligence
 
 ---
 
+## v0.8.0
+
+Report Refinement
+
+- Automatic collector registration with stable preferred ordering
+- Dependency-safe collector execution
+- Instructions-only ChatGPT prompt output
+- Cleaner separation between prompt, compact context and full profile
+
+---
+
 ## v1.0.0
 
 Stable Release

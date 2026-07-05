@@ -126,17 +126,11 @@ class AiPromptWriter
         $out[] = 'paths and complete code changes where practical."';
         $out[] = '';
 
-        foreach ($context->getSections() as $sectionTitle => $items) {
-            $out[] = '';
-            $out[] = '------------------------------------------------------------';
-            $out[] = strtoupper($sectionTitle);
-            $out[] = '------------------------------------------------------------';
-            $out[] = '';
-
-            foreach ($items as $item) {
-                $out[] = $item['key'] . ': ' . $item['value'];
-            }
-        }
+        $out[] = '';
+        $out[] = 'This prompt intentionally does not include the generated context data.';
+        $out[] = 'Use ai-project-context.txt for the compact briefing and ai-project-profile.txt';
+        $out[] = 'for the full authoritative report.';
+        $out[] = '';
 
         file_put_contents($file, implode("\n", $out));
     }

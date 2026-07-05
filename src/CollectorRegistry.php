@@ -58,11 +58,65 @@ class CollectorRegistry
         $visited = array();
         $visiting = array();
 
-        foreach ($this->collectors as $code => $collector) {
+        foreach ($this->getOrderedCollectorCodes() as $code) {
             $this->visitCollector($code, $sorted, $visited, $visiting);
         }
 
         return $sorted;
+    }
+
+    protected function getOrderedCollectorCodes()
+    {
+        $codes = array_keys($this->collectors);
+        $weights = $this->getPreferredCollectorOrderWeights();
+
+        usort($codes, function ($left, $right) use ($weights) {
+            $leftWeight = isset($weights[$left]) ? $weights[$left] : 10000;
+            $rightWeight = isset($weights[$right]) ? $weights[$right] : 10000;
+
+            if ($leftWeight === $rightWeight) {
+                return strcmp($left, $right);
+            }
+
+            return ($leftWeight < $rightWeight) ? -1 : 1;
+        });
+
+        return $codes;
+    }
+
+    protected function getPreferredCollectorOrderWeights()
+    {
+        $order = array(
+            'environment',
+            'php',
+            'magento_bootstrap',
+            'magento',
+            'stores',
+            'modules',
+            'themes',
+            'theme_hierarchy',
+            'rewrites',
+            'rewrite_map',
+            'observers',
+            'cron',
+            'indexes',
+            'cache',
+            'database',
+            'eav',
+            'layouts',
+            'routers',
+            'controllers',
+        );
+
+        $weights = array();
+        $weight = 0;
+
+        foreach ($order as $code) {
+            $weights[$code] = $weight;
+            $weight++;
+        }
+
+        return $weights;
     }
 
     protected function visitCollector($code, array &$sorted, array &$visited, array &$visiting)

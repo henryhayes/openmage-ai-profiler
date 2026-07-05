@@ -31,7 +31,7 @@ class CacheCollector extends AbstractCollector
 
         $section->addItem('Backend class', get_class($cache->getBackend()));
         $section->addItem('Cache prefix', Mage::getConfig()->getNode('global/cache/prefix') ? (string)Mage::getConfig()->getNode('global/cache/prefix') : '[none]');
-        $section->addItem('Session save', Mage::getStoreConfig('system/session/save') ? Mage::getStoreConfig('system/session/save') : '[unknown]');
+        $section->addItem('Session save', $this->getSessionSave());
 
         foreach ($types as $type => $state) {
             if ($state) {
@@ -49,5 +49,21 @@ class CacheCollector extends AbstractCollector
         $section->addItem('Summary / cache types', count($types));
         $section->addItem('Summary / enabled cache types', $enabled);
         $section->addItem('Summary / disabled cache types', $disabled);
+    }
+
+
+    protected function getSessionSave()
+    {
+        try {
+            $sessionSave = (string)Mage::getConfig()->getNode('global/session_save');
+
+            if ($sessionSave !== '') {
+                return $sessionSave;
+            }
+        } catch (Exception $e) {
+            return '[unavailable]';
+        }
+
+        return '[default]';
     }
 }

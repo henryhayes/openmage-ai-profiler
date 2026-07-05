@@ -20,6 +20,34 @@ The format is based on Keep a Changelog.
 
 -
 
+## [0.8.0] - 2026-07-05
+
+### Changed
+
+- Automatic collector discovery now keeps a preferred, AI-friendly report order while still enforcing declared collector dependencies.
+- ChatGPT prompt output is now instructions-only and no longer duplicates the compact AI context.
+- Updated project version to 0.8.0.
+
+### Fixed
+
+- Cache collector now reports session storage from the same Magento global session configuration used by the Magento collector.
+
+---
+
+## [0.7.0] - 2026-07-05
+
+### Added
+
+- EAV collector.
+- Layout collector.
+- Router collector.
+- Controller collector.
+- Automatic collector directory registration.
+- Collector dependency sorting.
+- AI context summaries for EAV, layout, router and controller architecture.
+
+---
+
 ## [0.6.0] - 2026-07-05
 
 ### Added
