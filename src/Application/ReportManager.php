@@ -105,13 +105,26 @@ class ReportManager
         if ($this->projectRoot === null || $this->projectRoot === '') {
             $file = $this->path('AGENTS.md');
             $aiDirectory = '.';
+            $localInstructionsFile = null;
         } else {
             $file = $this->projectRoot . DIRECTORY_SEPARATOR . 'AGENTS.md';
-            $aiDirectory = $this->relativePath($this->projectRoot, $this->outputDir);
+            $aiDirectory = $this->relativePath(
+                $this->projectRoot,
+                $this->outputDir
+            );
+
+            $localInstructionsFile = $this->projectRoot
+                . DIRECTORY_SEPARATOR
+                . 'AGENTS.local.md';
         }
 
         $writer = new CodexAgentsWriter();
-        $writer->write($context, $file, $aiDirectory);
+        $writer->write(
+            $context,
+            $file,
+            $aiDirectory,
+            $localInstructionsFile
+        );
 
         return $file;
     }

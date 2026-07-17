@@ -2,7 +2,7 @@
 
 class CodexAgentsWriter
 {
-    public function write(AiContext $context, $file, $aiDirectory)
+    public function write(AiContext $context, $file, $aiDirectory, $localInstructionsFile = null)
     {
         $aiDirectory = rtrim(str_replace('\\', '/', $aiDirectory), '/');
 
@@ -112,7 +112,32 @@ class CodexAgentsWriter
         $out[] = '';
         $out[] = 'Do not make Magento 2-style changes in this repository.';
         $out[] = '';
+        
+        if (
+            $localInstructionsFile !== null
+            && is_file($localInstructionsFile)
+            && is_readable($localInstructionsFile)
+        ) {
+            $localInstructions = trim((string)file_get_contents($localInstructionsFile));
 
-        file_put_contents($file, implode("\n", $out));
+            if ($localInstructions !== '') {
+                $out[] = '';
+                $out[] = '---';
+                $out[] = '';
+                $out[] = '# Project-specific local instructions';
+                $out[] = '';
+                $out[] = $localInstructions;
+                $out[] = '';
+            }
+        }
+
+        $result = file_put_contents(
+            $file,
+            implode("\n", $out) . "\n"
+        );
+
+        if ($result === false) {
+            throw new Exception('Unable to write Codex AGENTS.md file: ' . $file);
+        }
     }
 }

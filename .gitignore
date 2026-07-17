@@ -14,3 +14,5 @@ nbdist/
 nbactions.xml
 nb-configuration.xml
 profiler_*.php
+AGENTS.md
+AGENTS.local.md
